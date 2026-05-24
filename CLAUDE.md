@@ -28,7 +28,7 @@ To add a new ticker, add it to `TICKERS` in `data.py` and `COLORS` in `charts.py
 
 ## GitHub Repository
 
-Repository: `https://github.com/dessajf/dashboard-acoes-b3`
+Repository: `https://github.com/dessamarkito/dashboard-acoes-b3`
 
 ### Initial setup (one-time, run in terminal)
 
