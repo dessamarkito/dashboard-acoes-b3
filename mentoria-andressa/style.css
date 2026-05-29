@@ -408,6 +408,19 @@ section h2 {
 }
 
 /* ─── Footer ────────────────────────────────────────────── */
+.cta-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.footer-link {
+  color: var(--accent);
+  text-decoration: none;
+}
+.footer-link:hover { text-decoration: underline; }
+
 footer {
   padding: 28px;
   text-align: center;
