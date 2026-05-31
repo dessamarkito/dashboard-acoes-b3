@@ -398,6 +398,71 @@
       border-radius: 0 2px 2px 0;
     }
 
+    /* TUTORIAL PDF */
+    .tutorial-section {
+      text-align: center;
+      padding: 5rem 6%;
+      background: var(--black);
+    }
+
+    .tutorial-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 2rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 2.5rem 3rem;
+      max-width: 680px;
+      width: 100%;
+      text-align: left;
+      transition: border-color 0.2s;
+    }
+
+    .tutorial-card:hover { border-color: var(--accent); }
+
+    .tutorial-icon {
+      font-size: 3rem;
+      flex-shrink: 0;
+    }
+
+    .tutorial-info { flex: 1; }
+
+    .tutorial-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      margin-bottom: 0.4rem;
+      color: var(--white);
+    }
+
+    .tutorial-info p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      line-height: 1.5;
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--accent);
+      color: var(--black);
+      padding: 0.7rem 1.5rem;
+      border-radius: 2px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .btn-download:hover { opacity: 0.85; }
+
+    @media (max-width: 600px) {
+      .tutorial-card { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
+    }
+
     /* TESTIMONIALS */
     .testimonials-grid {
       display: grid;

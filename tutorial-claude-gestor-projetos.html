@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude para Gestores de Projetos</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f2eb;
+    --accent: #e84b1a;
+    --accent2: #1a5ce8;
+    --muted: #6b6560;
+    --card: #ffffff;
+    --border: #e0dbd2;
+    --tag-bg: #fff3ef;
+    --tag-text: #c43a0e;
+    --step-bg: #f0f4ff;
+    --step-border: #1a5ce8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.65;
+    font-size: 15px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 80px 60px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    right: -80px; top: -80px;
+    width: 420px; height: 420px;
+    border-radius: 50%;
+    border: 60px solid var(--accent);
+    opacity: 0.15;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    left: 40%; bottom: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 30px solid var(--accent2);
+    opacity: 0.12;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 2px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 5vw, 54px);
+    font-weight: 800;
+    line-height: 1.1;
+    max-width: 700px;
+    margin-bottom: 20px;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero p {
+    font-size: 17px;
+    color: #b0aba3;
+    max-width: 560px;
+    font-weight: 300;
+    margin-bottom: 36px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .hero-stat strong {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--paper);
+    display: block;
+  }
+  .hero-stat span {
+    font-size: 12px;
+    color: #7a756e;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 40px; }
+
+  /* ── NAV TABS ── */
+  .tabs-nav {
+    background: var(--card);
+    border-bottom: 2px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .tabs-nav ul {
+    display: flex;
+    list-style: none;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 40px;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs-nav ul::-webkit-scrollbar { display: none; }
+  .tabs-nav li a {
+    display: block;
+    padding: 16px 18px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: all .2s;
+  }
+  .tabs-nav li a:hover { color: var(--ink); }
+  .tabs-nav li a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── SECTIONS ── */
+  .section {
+    padding: 64px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 800;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .section-intro {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 620px;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  /* ── SKILL CARDS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .skill-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: all .25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform .25s;
+  }
+  .skill-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.1); transform: translateY(-2px); }
+  .skill-card:hover::before { transform: scaleX(1); }
+  .skill-icon {
+    font-size: 28px;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .skill-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .skill-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .skill-tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+    margin-top: 12px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── STEPS ── */
+  .steps { counter-reset: step-counter; }
+  .step {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 20px;
+    margin-bottom: 28px;
+    align-items: start;
+  }
+  .step-num {
+    width: 52px; height: 52px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .step-body { padding-top: 4px; }
+  .step-body h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .step-body p { font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+
+  /* ── CODE BLOCK ── */
+  .code-block {
+    background: var(--ink);
+    color: #e8e4dc;
+    border-radius: 10px;
+    padding: 20px 24px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 12px 0;
+    position: relative;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .code-block .cmt { color: #6b8a6b; }
+  .code-block .kw { color: #e89b4b; }
+  .code-block .str { color: #a8d4a8; }
+  .copy-btn {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: #b0aba3;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background .2s;
+  }
+  .copy-btn:hover { background: rgba(255,255,255,0.2); }
+
+  /* ── PROMPT TEMPLATES ── */
+  .prompt-list { display: flex; flex-direction: column; gap: 20px; }
+  .prompt-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .prompt-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 22px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+    transition: background .2s;
+  }
+  .prompt-header:hover { background: #faf9f6; }
+  .prompt-header-left { display: flex; align-items: center; gap: 12px; }
+  .prompt-emoji { font-size: 20px; }
+  .prompt-header h4 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .prompt-header .use-case {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .prompt-arrow {
+    font-size: 18px;
+    color: var(--muted);
+    transition: transform .3s;
+  }
+  .prompt-card.open .prompt-arrow { transform: rotate(180deg); }
+  .prompt-body {
+    display: none;
+    padding: 20px 22px;
+  }
+  .prompt-card.open .prompt-body { display: block; }
+  .prompt-text {
+    background: var(--step-bg);
+    border-left: 4px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 18px;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #1a1a2e;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .prompt-note {
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .btn-copy-prompt {
+    margin-top: 12px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    letter-spacing: .5px;
+    transition: background .2s;
+  }
+  .btn-copy-prompt:hover { background: var(--accent); }
+
+  /* ── WORKFLOW ── */
+  .workflow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .workflow-item {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 0;
+    position: relative;
+  }
+  .workflow-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 70px;
+    top: 52px;
+    bottom: -1px;
+    width: 2px;
+    background: var(--border);
+    z-index: 0;
+  }
+  .workflow-time {
+    padding: 24px 20px 24px 0;
+    text-align: right;
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+  }
+  .workflow-dot {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 3px solid var(--paper);
+    position: absolute;
+    right: -6px;
+    top: 32px;
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+  .workflow-content {
+    padding: 20px 0 20px 30px;
+    border-left: 2px solid var(--border);
+  }
+  .workflow-content h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .workflow-content p { font-size: 13px; color: var(--muted); }
+  .workflow-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .wtag {
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .wtag.blue {
+    background: #eff3ff;
+    color: #1a5ce8;
+  }
+
+  /* ── TIP BOX ── */
+  .tip-box {
+    background: #fff8f6;
+    border: 1.5px solid #f5c4b6;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 24px 0;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .tip-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+  .tip-box p { font-size: 13.5px; color: #5a2a1a; line-height: 1.6; }
+  .tip-box strong { color: var(--accent); }
+
+  /* ── METRICS TABLE ── */
+  .metrics-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    background: var(--card);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .metrics-table th {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 14px 18px;
+    text-align: left;
+  }
+  .metrics-table td {
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .metrics-table tr:last-child td { border-bottom: none; }
+  .metrics-table tr:hover td { background: #faf9f6; }
+  .metrics-table td:first-child {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .metrics-table td:last-child { color: var(--muted); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: #7a756e;
+    text-align: center;
+    padding: 40px;
+    font-size: 13px;
+  }
+  footer strong { color: var(--paper); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .hero { padding: 50px 24px 40px; }
+    .container { padding: 0 20px; }
+    .tabs-nav ul { padding: 0 20px; }
+    .workflow-item { grid-template-columns: 80px 1fr; }
+    .step { grid-template-columns: 40px 1fr; }
+    .step-num { width: 40px; height: 40px; font-size: 14px; }
+    .hero-stats { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-badge">Guia Prático</div>
+  <h1>Claude para<br><span>Gestores de Projetos</span></h1>
+  <p>Do zero à produtividade: aprenda a configurar Skills, criar prompts eficazes e usar IA no seu fluxo de gestão diária.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <strong>8</strong>
+      <span>Skills essenciais</span>
+    </div>
+    <div class="hero-stat">
+      <strong>15+</strong>
+      <span>Prompts prontos</span>
+    </div>
+    <div class="hero-stat">
+      <strong>5</strong>
+      <span>Módulos</span>
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="tabs-nav">
+  <ul>
+    <li><a href="#skills" class="active">1. O que são Skills</a></li>
+    <li><a href="#instalacao">2. Como instalar</a></li>
+    <li><a href="#prompts">3. Prompts prontos</a></li>
+    <li><a href="#workflow">4. Workflow diário</a></li>
+    <li><a href="#metricas">5. Métricas ágeis</a></li>
+  </ul>
+</nav>
+
+<!-- SEÇÃO 1: O QUE SÃO SKILLS -->
+<section id="skills" class="section">
+  <div class="container">
+    <div class="section-label">Módulo 01</div>
+    <h2 class="section-title">O que são Skills e por que usá-las</h2>
+    <p class="section-intro">Skills são instruções personalizadas que você "ensina" ao Claude — ele passa a entender seu contexto, seu projeto e seu jeito de trabalhar, gerando respostas muito mais precisas.</p>
+
+    <div class="skills-grid">
+      <div class="skill-card">
+        <span class="skill-icon">📊</span>
+        <h3>Indicadores de Projeto</h3>
+        <p>Gere dashboards de CPI, SPI, burndown e velocity automaticamente a partir dos seus dados brutos.</p>
+        <span class="skill-tag">KPIs & EVM</span>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">📽️</span>
+        <h3>Status Report</h3>
+        <p>Crie apresentações executivas de status com estrutura padronizada, highlights e ações em minutos.</p>
+        <span class="skill-tag">Apresentações</span>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">⚡</span>
+        <h3>Métricas Ágeis</h3>
+        <p>Analise velocity, lead time, cycle time e cumulative flow para suas sprints e releases.</p>
+        <span class="skill-tag">Scrum / Kanban</span>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">⚠️</span>
+        <h3>Gestão de Riscos</h3>
+        <p>Identifique, classifique e gere planos de mitigação em matriz de probabilidade × impacto.</p>
+        <span class="skill-tag">Risk Register</span>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">📝</span>
+        <h3>Atas e Reuniões</h3>
+        <p>Transforme notas brutas em atas formais com decisões, ações e responsáveis formatados.</p>
+        <span class="skill-tag">Documentação</span>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🗓️</span>
+        <h3>Planejamento de Sprint</h3>
+        <p>Monte o backlog priorizado, estime esforço e distribua tarefas pelo time com justificativas.</p>
+        <span class="skill-tag">Agile</span>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">📧</span>
+        <h3>Comunicação Executiva</h3>
+        <p>Redija e-mails, comunicados e relatórios no tom adequado para cada stakeholder.</p>
+        <span class="skill-tag">Stakeholders</span>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🔍</span>
+        <h3>Análise de Causa Raiz</h3>
+        <p>Aplique 5 Porquês, Ishikawa e PDCA automaticamente a problemas relatados na sprint.</p>
+        <span class="skill-tag">Qualidade</span>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <p><strong>Por que Skills fazem diferença?</strong> Sem Skills, você precisa repetir o contexto do projeto em todo novo chat. Com Skills configuradas, o Claude já sabe: nome do projeto, metodologia usada, formato de relatório preferido, stakeholders-chave e métricas relevantes — economizando até 60% do tempo de prompting.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: INSTALAÇÃO -->
+<section id="instalacao" class="section">
+  <div class="container">
+    <div class="section-label">Módulo 02</div>
+    <h2 class="section-title">Como instalar Skills no Claude</h2>
+    <p class="section-intro">Passo a passo completo para configurar suas Skills no Claude.ai. O processo leva menos de 10 minutos.</p>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Acesse o Claude.ai e abra "Projects"</h4>
+          <p>No menu lateral esquerdo, clique em <strong>Projects</strong> (ou "Projetos"). Se não aparecer, certifique-se de estar em uma conta Pro ou Team.</p>
+          <div class="tip-box" style="margin:10px 0;">
+            <span class="tip-icon">🔑</span>
+            <p>Skills funcionam dentro de <strong>Projetos</strong> no Claude. Cada projeto pode ter suas próprias instruções personalizadas — crie um projeto por área: "Gestão Ágil", "Relatórios Executivos", etc.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Crie um novo Projeto</h4>
+          <p>Clique em <strong>"+ New Project"</strong>, dê um nome descritivo (ex.: "Gestão de Projetos — [Nome do Projeto]") e confirme a criação.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Acesse as Instruções do Projeto</h4>
+          <p>Dentro do projeto criado, clique no ícone de <strong>⚙️ configurações</strong> ou no link <strong>"Add project instructions"</strong> (instruções do projeto).</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Cole sua Skill de contexto do projeto</h4>
+          <p>No campo de instruções, insira o template abaixo adaptado para seu projeto. Este é o "perfil" que o Claude vai memorizar:</p>
+          <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copiar</button><span class="cmt"># CONTEXTO DO PROJETO</span>
+
+<span class="kw">Projeto:</span> <span class="str">[Nome do Projeto]</span>
+<span class="kw">Cliente/Área:</span> <span class="str">[Cliente ou Área de Negócio]</span>
+<span class="kw">Metodologia:</span> <span class="str">Scrum | Kanban | Híbrido | Cascata</span>
+<span class="kw">Fase Atual:</span> <span class="str">Iniciação | Planejamento | Execução | Encerramento</span>
+<span class="kw">Time:</span> <span class="str">[Nº de pessoas e papéis principais]</span>
+
+<span class="cmt"># MEU PAPEL</span>
+Sou o Gerente de Projetos responsável por [descrever responsabilidade].
+Reporto para [cargo do stakeholder] e minha cadência de relatório é [semanal/quinzenal/mensal].
+
+<span class="cmt"># FORMATO DE SAÍDA PADRÃO</span>
+- Relatórios: use tabelas e bullet points
+- Status: sempre com RAG (🟢 Verde / 🟡 Amarelo / 🔴 Vermelho)
+- Atas: estrutura com Pauta → Discussão → Decisões → Ações
+- Língua: Português brasileiro, tom profissional mas direto
+
+<span class="cmt"># MÉTRICAS QUE ACOMPANHO</span>
+[ex: Velocity, CPI, SPI, Lead Time, Taxa de Defeitos, NPS interno]
+
+<span class="cmt"># FERRAMENTAS USADAS</span>
+[ex: Jira, Confluence, MS Project, Monday, Trello, Excel]</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h4>Adicione documentos de referência</h4>
+          <p>Ainda no projeto, use o botão <strong>"Add content"</strong> para fazer upload de documentos-chave: cronograma base, matriz de riscos atual, backlog do produto, organograma. O Claude vai consultá-los automaticamente.</p>
+          <div class="tip-box" style="margin:10px 0;">
+            <span class="tip-icon">📁</span>
+            <p>Formatos aceitos: <strong>PDF, DOCX, XLSX, TXT, CSV</strong>. Recomendação: adicione o plano do projeto e o backlog atualizado. Mantenha os documentos sempre frescos!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <h4>Salve e teste sua configuração</h4>
+          <p>Clique em <strong>Save</strong> e inicie uma nova conversa dentro do projeto. Teste com o prompt: <em>"Resuma o contexto do nosso projeto e liste as 3 principais métricas que devo monitorar esta semana."</em></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PROMPTS PRONTOS -->
+<section id="prompts" class="section">
+  <div class="container">
+    <div class="section-label">Módulo 03</div>
+    <h2 class="section-title">Prompts prontos para o seu dia a dia</h2>
+    <p class="section-intro">Clique em cada categoria para expandir os prompts. Copie, adapte e use imediatamente no seu projeto.</p>
+
+    <div class="prompt-list" id="promptList">
+
+      <div class="prompt-card">
+        <div class="prompt-header" onclick="togglePrompt(this)">
+          <div class="prompt-header-left">
+            <span class="prompt-emoji">📊</span>
+            <div>
+              <h4>Status Report Semanal</h4>
+              <div class="use-case">Para reuniões de acompanhamento e e-mails executivos</div>
+            </div>
+          </div>
+          <span class="prompt-arrow">▼</span>
+        </div>
+        <div class="prompt-body">
+          <div class="prompt-text">Com base nos dados abaixo, gere um Status Report executivo no formato RAG (🟢🟡🔴) para a semana [X]:
+
+DADOS DA SEMANA:
+- Tarefas concluídas: [lista]
+- Tarefas em atraso: [lista]
+- Principais impedimentos: [lista]
+- Próximas entregas: [lista]
+
+O relatório deve conter:
+1. Sumário executivo (3 linhas)
+2. Status geral do projeto (RAG com justificativa)
+3. Progresso por área/workstream
+4. Riscos e impedimentos ativos
+5. Próximos marcos críticos (2 semanas)
+6. Ações requeridas dos stakeholders
+
+Formato: tabela + texto. Tom: profissional e direto.</div>
+          <p class="prompt-note">💡 Cole seus dados brutos no lugar dos colchetes e envie. O Claude formata tudo automaticamente.</p>
+          <button class="btn-copy-prompt" onclick="copyPrompt(this)">Copiar Prompt</button>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-header" onclick="togglePrompt(this)">
+          <div class="prompt-header-left">
+            <span class="prompt-emoji">⚡</span>
+            <div>
+              <h4>Análise de Sprint (Retrospectiva)</h4>
+              <div class="use-case">Para retrospectivas ágeis e melhoria contínua</div>
+            </div>
+          </div>
+          <span class="prompt-arrow">▼</span>
+        </div>
+        <div class="prompt-body">
+          <div class="prompt-text">Analise os dados da Sprint [número] e gere um relatório de retrospectiva estruturado:
+
+DADOS DA SPRINT:
+- Velocity planejado: [X] pontos | Realizado: [Y] pontos
+- Stories concluídas: [lista]
+- Stories não concluídas: [lista] (motivo: [motivo])
+- Bugs encontrados: [N]
+- Impedimentos registrados: [lista]
+- Feedback do time: [comentários coletados]
+
+Gere:
+1. Análise do Velocity (desvio % e tendência das últimas 3 sprints)
+2. What Went Well / What Didn't / Action Items
+3. Top 3 causas raiz dos atrasos (use 5 Porquês se necessário)
+4. Recomendações para a próxima sprint
+5. Meta de velocity ajustada com base na tendência</div>
+          <button class="btn-copy-prompt" onclick="copyPrompt(this)">Copiar Prompt</button>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-header" onclick="togglePrompt(this)">
+          <div class="prompt-header-left">
+            <span class="prompt-emoji">⚠️</span>
+            <div>
+              <h4>Atualização do Risk Register</h4>
+              <div class="use-case">Para revisões periódicas de riscos</div>
+            </div>
+          </div>
+          <span class="prompt-arrow">▼</span>
+        </div>
+        <div class="prompt-body">
+          <div class="prompt-text">Com base nas situações abaixo, atualize nossa matriz de riscos e sugira novos riscos que possam não ter sido identificados:
+
+SITUAÇÃO ATUAL DO PROJETO:
+[Descreva o contexto, ex: "Estamos na fase de integração, com dependência de API do fornecedor X que ainda não foi entregue. O prazo final é em 45 dias."]
+
+RISCOS JÁ MAPEADOS:
+[Cole ou liste os riscos existentes]
+
+Por favor:
+1. Atualize o status de cada risco (Probabilidade × Impacto: Alto/Médio/Baixo)
+2. Sugira até 5 novos riscos relevantes ao contexto
+3. Para cada risco crítico (P×I = Alto), proponha plano de mitigação e contingência
+4. Ordene por criticidade e gere a tabela no formato: ID | Risco | Prob. | Impacto | Status | Dono | Mitigação</div>
+          <button class="btn-copy-prompt" onclick="copyPrompt(this)">Copiar Prompt</button>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-header" onclick="togglePrompt(this)">
+          <div class="prompt-header-left">
+            <span class="prompt-emoji">📝</span>
+            <div>
+              <h4>Ata de Reunião Automática</h4>
+              <div class="use-case">Para qualquer tipo de reunião de projeto</div>
+            </div>
+          </div>
+          <span class="prompt-arrow">▼</span>
+        </div>
+        <div class="prompt-body">
+          <div class="prompt-text">Transforme as notas brutas abaixo em uma ata formal de reunião:
+
+NOTAS BRUTAS:
+[Cole aqui suas anotações, transcrição ou pontos discutidos — não precisa estar organizado]
+
+PARTICIPANTES: [lista de nomes e cargos]
+DATA/HORA: [data] | LOCAL/PLATAFORMA: [local]
+
+Gere a ata com:
+1. Cabeçalho formal (Projeto, Data, Participantes, Objetivo)
+2. Pauta discutida
+3. Resumo das discussões por tópico
+4. Decisões tomadas (destacadas em negrito)
+5. Ações / Action Items no formato:
+   | # | Ação | Responsável | Prazo | Prioridade |
+6. Próxima reunião / próximos passos
+7. Espaço para assinaturas (se necessário)
+
+Tom: formal e objetivo. Máximo 2 páginas.</div>
+          <button class="btn-copy-prompt" onclick="copyPrompt(this)">Copiar Prompt</button>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-header" onclick="togglePrompt(this)">
+          <div class="prompt-header-left">
+            <span class="prompt-emoji">📈</span>
+            <div>
+              <h4>Análise de EVM (Earned Value)</h4>
+              <div class="use-case">Para projetos com orçamento e cronograma formal</div>
+            </div>
+          </div>
+          <span class="prompt-arrow">▼</span>
+        </div>
+        <div class="prompt-body">
+          <div class="prompt-text">Calcule e interprete os indicadores de Earned Value Management para o período atual:
+
+DADOS:
+- BAC (Budget at Completion): R$ [valor]
+- PV (Planned Value / BCWS): R$ [valor]
+- EV (Earned Value / BCWP): R$ [valor]
+- AC (Actual Cost / ACWP): R$ [valor]
+- Data de início: [data] | Prazo final: [data]
+- % Concluído real: [%]
+
+Calcule e apresente:
+1. CV (Cost Variance) e interpretação
+2. SV (Schedule Variance) e interpretação
+3. CPI (Cost Performance Index) — estamos acima/abaixo do orçamento?
+4. SPI (Schedule Performance Index) — estamos adiantados/atrasados?
+5. EAC (Estimate at Completion) — previsão de custo final
+6. ETC (Estimate to Complete) — quanto ainda precisamos gastar
+7. VAC (Variance at Completion) — desvio previsto
+8. Semáforo RAG de cada indicador
+9. Narrativa executiva de 5 linhas explicando a saúde financeira do projeto</div>
+          <button class="btn-copy-prompt" onclick="copyPrompt(this)">Copiar Prompt</button>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-header" onclick="togglePrompt(this)">
+          <div class="prompt-header-left">
+            <span class="prompt-emoji">📣</span>
+            <div>
+              <h4>Comunicação para Stakeholders</h4>
+              <div class="use-case">E-mails, comunicados e apresentações executivas</div>
+            </div>
+          </div>
+          <span class="prompt-arrow">▼</span>
+        </div>
+        <div class="prompt-body">
+          <div class="prompt-text">Preciso comunicar uma situação delicada para meu stakeholder principal. Redija o e-mail/comunicado adequado:
+
+SITUAÇÃO:
+[Descreva o que precisa ser comunicado — atraso, mudança de escopo, issue crítico, conquista importante]
+
+DESTINATÁRIO: [Cargo e perfil — ex: "Diretor de TI, perfil técnico, foco em resultados"]
+OBJETIVO da comunicação: [Informar / Pedir aprovação / Escalar / Celebrar]
+TOM desejado: [Formal / Profissional direto / Colaborativo]
+
+Gere:
+1. E-mail completo com assunto impactante
+2. Versão resumida para WhatsApp/Slack (máx. 5 linhas)
+3. 3 possíveis perguntas que o stakeholder fará + respostas preparadas
+
+Importante: seja transparente, apresente o problema E a solução proposta juntos.</div>
+          <button class="btn-copy-prompt" onclick="copyPrompt(this)">Copiar Prompt</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: WORKFLOW DIÁRIO -->
+<section id="workflow" class="section">
+  <div class="container">
+    <div class="section-label">Módulo 04</div>
+    <h2 class="section-title">Workflow diário com o Claude</h2>
+    <p class="section-intro">Como integrar o Claude na sua rotina de GP — do início da manhã até o fechamento do dia.</p>
+
+    <div class="workflow">
+      <div class="workflow-item">
+        <div class="workflow-time">08h00<div class="workflow-dot"></div></div>
+        <div class="workflow-content">
+          <h4>☀️ Abertura do Dia — Briefing</h4>
+          <p>Peça ao Claude um resumo das prioridades do dia com base no backlog e nas ações pendentes da última ata.</p>
+          <div class="workflow-tags">
+            <span class="wtag">Daily Planning</span>
+            <span class="wtag blue">5 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-item">
+        <div class="workflow-time">09h30<div class="workflow-dot"></div></div>
+        <div class="workflow-content">
+          <h4>📋 Daily Standup — Síntese</h4>
+          <p>Cole as atualizações do time e peça ao Claude identificar impedimentos, alertas de prazo e sugerir perguntas para a daily.</p>
+          <div class="workflow-tags">
+            <span class="wtag">Scrum</span>
+            <span class="wtag blue">3 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-item">
+        <div class="workflow-time">11h00<div class="workflow-dot"></div></div>
+        <div class="workflow-content">
+          <h4>📝 Atas e Documentação</h4>
+          <p>Após reuniões, cole suas notas brutas e receba a ata formatada com decisões e action items em menos de 2 minutos.</p>
+          <div class="workflow-tags">
+            <span class="wtag">Documentação</span>
+            <span class="wtag blue">2 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-item">
+        <div class="workflow-time">14h00<div class="workflow-dot"></div></div>
+        <div class="workflow-content">
+          <h4>📊 Atualização de Métricas</h4>
+          <p>Insira dados do Jira/Monday exportados em CSV e peça análise de velocity, burndown e desvios do sprint atual.</p>
+          <div class="workflow-tags">
+            <span class="wtag">Métricas Ágeis</span>
+            <span class="wtag">EVM</span>
+            <span class="wtag blue">10 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-item">
+        <div class="workflow-time">16h30<div class="workflow-dot"></div></div>
+        <div class="workflow-content">
+          <h4>📧 Comunicações e Relatórios</h4>
+          <p>Gere o status report semanal, e-mails para stakeholders e comunicados de mudança com os prompts prontos da seção anterior.</p>
+          <div class="workflow-tags">
+            <span class="wtag">Status Report</span>
+            <span class="wtag">Stakeholders</span>
+            <span class="wtag blue">15 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-item">
+        <div class="workflow-time">17h30<div class="workflow-dot"></div></div>
+        <div class="workflow-content">
+          <h4>🔍 Fechamento — Revisão de Riscos</h4>
+          <p>Ao fim do dia, relate situações novas e peça ao Claude atualizar o risk register e sugerir ações preventivas para amanhã.</p>
+          <div class="workflow-tags">
+            <span class="wtag">Risk Management</span>
+            <span class="wtag blue">5 min</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <span class="tip-icon">⏱️</span>
+      <p><strong>Tempo total economizado:</strong> Este workflow tipicamente economiza <strong>1h30 a 2h por dia</strong> em documentação, formatação de relatórios e análise de dados — tempo que você devolve para liderança, decisão e relacionamento com o time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: MÉTRICAS ÁGEIS -->
+<section id="metricas" class="section">
+  <div class="container">
+    <div class="section-label">Módulo 05</div>
+    <h2 class="section-title">Métricas ágeis que o Claude analisa para você</h2>
+    <p class="section-intro">Referência rápida: o que é cada métrica, como coletar os dados e qual prompt usar para análise automática.</p>
+
+    <table class="metrics-table">
+      <thead>
+        <tr>
+          <th>Métrica</th>
+          <th>O que mede</th>
+          <th>Dado necessário</th>
+          <th>Frequência</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>🏃 Velocity</td>
+          <td>Pontos de história entregues por sprint</td>
+          <td>Story points concluídos por sprint (últimas 6)</td>
+          <td>Por sprint</td>
+        </tr>
+        <tr>
+          <td>🔥 Burndown</td>
+          <td>Progresso de entrega vs. planejado</td>
+          <td>Pontos restantes por dia da sprint</td>
+          <td>Diário</td>
+        </tr>
+        <tr>
+          <td>⏱️ Lead Time</td>
+          <td>Tempo total: pedido → entrega</td>
+          <td>Data criação e data conclusão de cada item</td>
+          <td>Por sprint</td>
+        </tr>
+        <tr>
+          <td>🔄 Cycle Time</td>
+          <td>Tempo de desenvolvimento ativo</td>
+          <td>Data início "Em progresso" e data conclusão</td>
+          <td>Por sprint</td>
+        </tr>
+        <tr>
+          <td>📉 CPI</td>
+          <td>Eficiência de custo (EVM)</td>
+          <td>EV e AC do período</td>
+          <td>Mensal</td>
+        </tr>
+        <tr>
+          <td>📅 SPI</td>
+          <td>Eficiência de prazo (EVM)</td>
+          <td>EV e PV do período</td>
+          <td>Mensal</td>
+        </tr>
+        <tr>
+          <td>🐛 Defect Rate</td>
+          <td>Qualidade das entregas</td>
+          <td>Bugs abertos / stories entregues</td>
+          <td>Por sprint</td>
+        </tr>
+        <tr>
+          <td>🌊 CFD</td>
+          <td>Gargalos no fluxo Kanban</td>
+          <td>Qtd. itens por coluna ao longo do tempo</td>
+          <td>Semanal</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tip-box" style="margin-top:32px;">
+      <span class="tip-icon">🎯</span>
+      <p><strong>Dica de ouro:</strong> Exporte seu board do Jira ou Monday como <strong>CSV</strong>, faça upload no projeto do Claude e peça: <em>"Analise este CSV e calcule velocity, lead time e cycle time das últimas 4 sprints. Identifique tendências e recomende 3 ações de melhoria."</em> — você terá uma análise completa em segundos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Tutorial criado com <strong>Claude</strong> — Anthropic &nbsp;·&nbsp; Para uso interno e capacitação de times de projetos</p>
+  <p style="margin-top:8px; font-size:12px;">Mantenha suas Skills atualizadas a cada mudança significativa no projeto para melhores resultados.</p>
+</footer>
+
+<script>
+  // Toggle prompt cards
+  function togglePrompt(header) {
+    const card = header.parentElement;
+    card.classList.toggle('open');
+  }
+
+  // Copy code block
+  function copyCode(btn) {
+    const code = btn.parentElement.innerText.replace('Copiar\n', '').replace('Copiado!', '').trim();
+    navigator.clipboard.writeText(code).then(() => {
+      btn.textContent = 'Copiado!';
+      setTimeout(() => btn.textContent = 'Copiar', 2000);
+    });
+  }
+
+  // Copy prompt text
+  function copyPrompt(btn) {
+    const promptText = btn.previousElementSibling.previousElementSibling.innerText;
+    navigator.clipboard.writeText(promptText).then(() => {
+      btn.textContent = '✓ Copiado!';
+      setTimeout(() => btn.textContent = 'Copiar Prompt', 2000);
+    });
+  }
+
+  // Active nav on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.tabs-nav a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      const top = s.offsetTop - 100;
+      if (pageYOffset >= top) current = s.getAttribute('id');
+    });
+    navLinks.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+    });
+  });
+
+  // Smooth scroll
+  navLinks.forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</body>
+</html>
