@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alessandra Marquito | Farmacêutica & Consultora</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">Alessandra Marquito</a>
+      <ul class="nav-links">
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#publicacoes">Publicações</a></li>
+        <li><a href="#contato" class="btn-nav">Contato</a></li>
+      </ul>
+      <button class="nav-toggle" onclick="toggleMenu()">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero-content">
+      <p class="hero-tag">Farmacêutica · Doutora em Saúde · Consultora</p>
+      <h1>Alessandra <span>Marquito</span></h1>
+      <p class="hero-sub">
+        Compartilhando conhecimento, ciência e experiências para inspirar e transformar vidas.
+      </p>
+      <div class="hero-btns">
+        <a href="#servicos" class="btn-primary">Conheça meus serviços</a>
+        <a href="#contato" class="btn-outline">Entre em contato</a>
+      </div>
+    </div>
+    <div class="hero-shape"></div>
+  </section>
+
+  <!-- SOBRE -->
+  <section class="sobre" id="sobre">
+    <div class="container">
+      <div class="sobre-text">
+        <span class="section-tag">Quem sou eu</span>
+        <h2>Sobre <span>Alessandra</span></h2>
+        <p>
+          Farmacêutica, funcionária pública do estado de Minas Gerais desde 2012.
+          Especialista em Farmácia Hospitalar, Mestre e Doutora em Saúde com trabalhos
+          publicados na área de nefrologia.
+        </p>
+        <p>
+          Mulher que tenta dar conta de tudo: trabalho, serviços domésticos, vida social
+          e saúde. Apaixonada por esportes e viagens.
+        </p>
+        <p>
+          Paciente oncológica em remissão de um câncer de mama metastático e idealizadora
+          de projetos sociais de enfrentamento à doença.
+        </p>
+        <p class="sobre-destaque">
+          "Estou no caminho da minha jornada profissional e pessoal. Meu objetivo é divulgar
+          meus trabalhos e inspirar outras pessoas, compartilhando conhecimento e experiências."
+        </p>
+        <div class="sobre-badges">
+          <span class="badge">🎓 Doutora em Saúde</span>
+          <span class="badge">🏥 Farmácia Hospitalar</span>
+          <span class="badge">🔬 Pesquisadora</span>
+          <span class="badge">💪 Sobrevivente</span>
+        </div>
+      </div>
+      <div class="sobre-img">
+        <div class="img-placeholder">
+          <p>Foto da<br/>Alessandra</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS -->
+  <section class="servicos" id="servicos">
+    <div class="container">
+      <span class="section-tag center">O que ofereço</span>
+      <h2 class="center">Meus <span>Serviços</span></h2>
+      <p class="section-sub center">Soluções especializadas para empresas, instituições de saúde e estudantes</p>
+
+      <div class="cards-grid">
+
+        <div class="card">
+          <div class="card-icon">🏥</div>
+          <h3>Consultoria Farmacêutica</h3>
+          <p>Consultoria e assessoria farmacêutica em hospitais e clínicas particulares.</p>
+          <p class="card-note">Empresa pode enviar a demanda e realizo proposta de trabalho com orçamento personalizado.</p>
+          <a href="#contato" class="card-link">Solicitar orçamento →</a>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🎤</div>
+          <h3>Treinamentos e Palestras</h3>
+          <p>Treinamentos e palestras em saúde para empresas, hospitais e clínicas.</p>
+          <p class="card-note">Conteúdo especializado e atualizado para capacitar equipes de saúde.</p>
+          <a href="#contato" class="card-link">Saiba mais →</a>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">📚</div>
+          <h3>Consultoria Acadêmica</h3>
+          <p>Consultoria em saúde para TCC, artigo, projeto, dissertação e tese.</p>
+          <ul class="card-list">
+            <li>Escrita customizada</li>
+            <li>Formatação e produção do material</li>
+            <li>Definição de tema e metodologia</li>
+            <li>Revisão completa</li>
+          </ul>
+          <p class="card-note destaque">✅ Já auxiliei mais de 30 alunos em diversas especialidades!</p>
+          <a href="#contato" class="card-link">Quero ajuda →</a>
+        </div>
+
+        <div class="card card-ebook">
+          <div class="card-icon">📖</div>
+          <h3>E-book</h3>
+          <p>Conteúdo especializado em construção. Em breve disponível!</p>
+          <span class="badge-em-breve">Em breve</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLICAÇÕES -->
+  <section class="publicacoes" id="publicacoes">
+    <div class="container">
+      <span class="section-tag center">Produção científica</span>
+      <h2 class="center">Publicações <span>Científicas</span></h2>
+      <p class="section-sub center">Trabalhos publicados em revistas científicas de referência</p>
+
+      <div class="pub-grid">
+
+        <a href="https://cienciaesaudecoletiva.com.br/artigos/adaptacaotranscultural-do-instrumento-pair-pharmacotherapy-assessment-in-chronic-renal-disease-para-aplicacao-no-brasil/17143" target="_blank" class="pub-card">
+          <span class="pub-revista">Revista Ciência e Saúde Coletiva</span>
+          <h4>Adaptação transcultural do instrumento PAIR: Pharmacotherapy Assessment in Chronic Renal Disease para aplicação no Brasil</h4>
+          <span class="pub-link">Acessar artigo →</span>
+        </a>
+
+        <a href="https://www.bjnephrology.org/article/interacoes-medicamentosas-potenciais-em-pacientes-com-doenca-renal-cronica/" target="_blank" class="pub-card">
+          <span class="pub-revista">Brazilian Journal of Nephrology (BJN)</span>
+          <h4>Interações medicamentosas potenciais em pacientes com doença renal crônica</h4>
+          <span class="pub-link">Acessar artigo →</span>
+        </a>
+
+        <a href="https://www.bjnephrology.org/article/avaliacao-da-farmacoterapia-na-doenca-renal-cronica-validacao-do-instrumento-pair-para-uso-no-brasil/" target="_blank" class="pub-card">
+          <span class="pub-revista">Brazilian Journal of Nephrology (BJN)</span>
+          <h4>Pharmacotherapy assessment in chronic kidney disease: validation of the PAIR instrument for use in Brazil</h4>
+          <span class="pub-link">Acessar artigo →</span>
+        </a>
+
+        <a href="http://scielo.pt/scielo.php?script=sci_arttext&pid=S0871-34132011000300002" target="_blank" class="pub-card">
+          <span class="pub-revista">Revista Arquivos de Medicina</span>
+          <h4>Profilaxia para Úlcera de Stress em Unidade de Terapia Intensiva</h4>
+          <span class="pub-link">Acessar artigo →</span>
+        </a>
+
+      </div>
+
+      <div class="lattes-box">
+        <p>Acesse o currículo completo no</p>
+        <a href="http://lattes.cnpq.br/3573483842735309" target="_blank" class="btn-primary">Currículo Lattes</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section class="contato" id="contato">
+    <div class="container">
+      <span class="section-tag center">Vamos conversar</span>
+      <h2 class="center">Entre em <span>Contato</span></h2>
+      <p class="section-sub center">Mal posso esperar para trabalhar com você. Entre em contato que retorno em breve!</p>
+
+      <div class="contato-grid">
+
+        <div class="contato-info">
+          <h3>Outras formas de contato</h3>
+          <div class="contato-item">
+            <span class="contato-icon">💼</span>
+            <div>
+              <strong>LinkedIn</strong>
+              <a href="https://www.linkedin.com/in/alessandra-marquito-09a2b25a" target="_blank">
+                /alessandra-marquito
+              </a>
+            </div>
+          </div>
+          <div class="contato-item">
+            <span class="contato-icon">🔬</span>
+            <div>
+              <strong>Currículo Lattes</strong>
+              <a href="http://lattes.cnpq.br/3573483842735309" target="_blank">
+                Acesse aqui
+              </a>
+            </div>
+          </div>
+          <div class="contato-item">
+            <span class="contato-icon">📱</span>
+            <div>
+              <strong>WhatsApp</strong>
+              <a href="#" class="whatsapp-link">Clique para conversar</a>
+            </div>
+          </div>
+        </div>
+
+        <form class="contato-form" onsubmit="enviarFormulario(event)">
+          <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" placeholder="Seu nome completo" required />
+          </div>
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" placeholder="seu@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="assunto">Assunto</label>
+            <input type="text" id="assunto" placeholder="Consultoria, palestra, acadêmico..." required />
+          </div>
+          <div class="form-group">
+            <label for="mensagem">Mensagem</label>
+            <textarea id="mensagem" rows="5" placeholder="Descreva como posso te ajudar..." required></textarea>
+          </div>
+          <button type="submit" class="btn-primary full">Enviar mensagem</button>
+          <p class="form-success" id="sucesso">✅ Mensagem enviada! Entrarei em contato em breve.</p>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-nome">Alessandra Marquito</p>
+      <p class="footer-sub">Farmacêutica · Doutora em Saúde · Consultora</p>
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/in/alessandra-marquito-09a2b25a" target="_blank">LinkedIn</a>
+        <a href="http://lattes.cnpq.br/3573483842735309" target="_blank">Lattes</a>
+        <a href="#contato">Contato</a>
+      </div>
+      <p class="footer-copy">© 2025 Alessandra Marquito. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
