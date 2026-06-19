@@ -375,7 +375,7 @@ cenarios = [
 for titulo, descricao, passos in cenarios:
     add_heading(doc, titulo, 2, color=AZUL_MED)
     add_body(doc, descricao, italic=True)
-    add_body(doc, "Como usar o Claude:", color=VERDE, bold=False)
+    add_body(doc, "Como usar o Claude:", color=VERDE)
     for passo in passos:
         add_bullet(doc, passo)
     doc.add_paragraph()
