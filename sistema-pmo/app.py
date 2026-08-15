@@ -15,7 +15,7 @@ init_db()
 st.markdown("""
 <style>
   .main { background:#0E1117; }
-  .block-container { padding-top:1.5rem; }
+  .block-container { padding-top:1rem; }
   .titulo-sistema {
     font-size:1.6rem; font-weight:700; color:#FFFFFF;
     border-left:5px solid #009A44; padding-left:12px; margin-bottom:4px;
@@ -38,6 +38,17 @@ st.markdown("""
   .kpi-val { font-size:1.8rem; font-weight:700; }
   .kpi-lbl { font-size:0.78rem; color:#AAAAAA; }
   .divider { border-top:1px solid #333; margin:16px 0; }
+  .logo-cateno {
+    background: linear-gradient(135deg, #002B5C 0%, #0056A2 100%);
+    border-radius:10px; padding:10px 20px;
+    display:flex; align-items:center; gap:12px; margin-bottom:16px;
+  }
+  .logo-texto {
+    font-size:1.6rem; font-weight:800; color:#FFFFFF; letter-spacing:2px;
+  }
+  .logo-sub {
+    font-size:0.75rem; color:#AAD4FF; letter-spacing:1px;
+  }
 </style>
 """, unsafe_allow_html=True)
 
