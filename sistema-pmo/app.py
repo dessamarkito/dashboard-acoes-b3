@@ -16,41 +16,52 @@ init_db()
 # ── Estilos ──────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-  .main { background:#0E1117; }
-  .block-container { padding-top:1rem; }
+  /* Fundo geral */
+  .stApp, .main, [data-testid="stAppViewContainer"] {
+    background: #F0F2F6 !important;
+  }
+  [data-testid="stSidebar"] {
+    background: #FFFFFF !important;
+    border-right: 1px solid #E5E7EB !important;
+  }
+  .block-container { padding-top:1.5rem; }
+
+  /* Títulos */
   .titulo-sistema {
-    font-size:1.6rem; font-weight:700; color:#FFFFFF;
-    border-left:5px solid #009A44; padding-left:12px; margin-bottom:4px;
+    font-size:1.5rem; font-weight:700; color:#111827;
+    border-left:4px solid #0056A2; padding-left:12px; margin-bottom:2px;
   }
-  .subtitulo { font-size:0.9rem; color:#AAAAAA; padding-left:17px; }
+  .subtitulo { font-size:0.88rem; color:#6B7280; padding-left:16px; }
+
+  /* Cards de projeto */
   .card-projeto {
-    background:#1C2333; border-radius:10px;
-    padding:16px 20px; margin-bottom:12px;
-    border-left:5px solid #555;
+    background:#FFFFFF;
+    border-radius:10px;
+    padding:16px 20px;
+    margin-bottom:10px;
+    border-left:4px solid #D1D5DB;
+    box-shadow:0 1px 4px rgba(0,0,0,0.07);
   }
-  .card-verde   { border-left-color:#009A44; }
-  .card-amarelo { border-left-color:#FFC200; }
-  .card-vermelho{ border-left-color:#C0392B; }
-  .card-azul    { border-left-color:#0056A2; }
-  .badge {
-    display:inline-block; padding:3px 10px; border-radius:12px;
-    font-size:0.78rem; font-weight:600; margin-right:6px;
+  .card-verde    { border-left-color:#009A44; }
+  .card-amarelo  { border-left-color:#F59E0B; }
+  .card-vermelho { border-left-color:#DC2626; }
+  .card-azul     { border-left-color:#0056A2; }
+
+  /* KPI */
+  .kpi {
+    background:#FFFFFF; border-radius:10px;
+    padding:16px 12px; text-align:center;
+    box-shadow:0 1px 4px rgba(0,0,0,0.07);
   }
-  .kpi { background:#1C2333; border-radius:8px; padding:14px; text-align:center; }
-  .kpi-val { font-size:1.8rem; font-weight:700; }
-  .kpi-lbl { font-size:0.78rem; color:#AAAAAA; }
-  .divider { border-top:1px solid #333; margin:16px 0; }
-  .logo-cateno {
-    background: linear-gradient(135deg, #002B5C 0%, #0056A2 100%);
-    border-radius:10px; padding:10px 20px;
-    display:flex; align-items:center; gap:12px; margin-bottom:16px;
-  }
-  .logo-texto {
-    font-size:1.6rem; font-weight:800; color:#FFFFFF; letter-spacing:2px;
-  }
-  .logo-sub {
-    font-size:0.75rem; color:#AAD4FF; letter-spacing:1px;
-  }
+  .kpi-val { font-size:1.9rem; font-weight:700; color:#111827; }
+  .kpi-lbl { font-size:0.75rem; color:#6B7280; margin-top:2px; }
+
+  /* Divider */
+  .divider { border-top:1px solid #E5E7EB; margin:16px 0; }
+
+  /* Texto geral dos cards */
+  .card-projeto b { color:#111827; }
+  .card-projeto span { color:#374151; }
 </style>
 """, unsafe_allow_html=True)
 
