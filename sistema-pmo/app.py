@@ -133,12 +133,13 @@ if not st.session_state.usuario:
 # SIDEBAR
 # ════════════════════════════════════════════════════════════════════
 with st.sidebar:
-    st.markdown("""
-    <div style='background:linear-gradient(135deg,#002B5C,#0056A2);
-                border-radius:10px; padding:12px 16px; margin-bottom:16px; text-align:center;'>
-      <span style='font-size:1.4rem; font-weight:800; color:#FFF; letter-spacing:3px;'>CATENO</span><br>
-      <span style='font-size:0.7rem; color:#AAD4FF; letter-spacing:1px;'>SISTEMA PMO</span>
+    st.markdown(f"""
+    <div style='background:#111827; border-radius:10px; padding:12px 16px;
+                margin-bottom:4px; text-align:center;'>
+      <img src='{LOGO_SRC}' style='height:44px; display:inline-block;'>
     </div>
+    <div style='text-align:center; font-size:0.7rem; color:#6B7280;
+                letter-spacing:1px; margin-bottom:14px;'>SISTEMA PMO</div>
     """, unsafe_allow_html=True)
 
     st.markdown(f"""
