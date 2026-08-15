@@ -302,7 +302,7 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
         descricao = st.text_area("Descrição do Projeto", value=p.get("descricao",""), height=100)
 
         st.markdown("#### Status e Classificação")
-        c5, c6, c7 = st.columns(3)
+        c5, c6, c7, c8 = st.columns(4)
         with c5:
             status = st.selectbox("Status *", STATUS_OPTS,
                                   index=STATUS_OPTS.index(p["status"]) if p.get("status") in STATUS_OPTS else 0)
@@ -312,6 +312,10 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
         with c7:
             fase = st.selectbox("Fase Atual", FASE_OPTS,
                                 index=FASE_OPTS.index(p["fase"]) if p.get("fase") in FASE_OPTS else 0)
+        with c8:
+            _cat_default = p.get("categoria","Operacionais") or "Operacionais"
+            categoria = st.selectbox("Categoria", CATEGORIA_OPTS,
+                                     index=CATEGORIA_OPTS.index(_cat_default) if _cat_default in CATEGORIA_OPTS else 2)
 
         st.markdown("#### Cronograma")
         d1, d2, d3 = st.columns(3)
