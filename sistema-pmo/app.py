@@ -175,15 +175,15 @@ if pagina == "🏠 Painel":
               <div class='kpi-lbl'>{label}</div>
             </div>""", unsafe_allow_html=True)
 
-        kpi(k1, "Total",        total)
+        kpi(k1, "Total",        total,     "#111827")
         kpi(k2, "🟢 No Prazo",  no_prazo,  "#009A44")
-        kpi(k3, "🟡 Atenção",   atencao,   "#FFC200")
-        kpi(k4, "🔴 Crítico",   critico,   "#C0392B")
+        kpi(k3, "🟡 Atenção",   atencao,   "#D97706")
+        kpi(k4, "🔴 Crítico",   critico,   "#DC2626")
         kpi(k5, "🔵 Não Inic.", nao_inic,  "#0056A2")
-        kpi(k6, "Consumido",    f"R${cons_tot/1e6:.1f}M", "#7EB8F7")
+        kpi(k6, "Consumido",    f"R${cons_tot/1e6:.1f}M", "#374151")
         kpi(k7, "Forecast",
             f"R${fc_tot/1e6:.1f}M",
-            "#C0392B" if fc_tot > orc_tot else "#009A44")
+            "#DC2626" if fc_tot > orc_tot else "#009A44")
 
         st.markdown("<br>", unsafe_allow_html=True)
 
