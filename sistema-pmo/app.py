@@ -54,9 +54,10 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-STATUS_OPTS = ["🔵 Não Iniciado","🟢 No Prazo","🟡 Atenção","🔴 Crítico","⚫ Encerrado"]
+STATUS_OPTS    = ["🔵 Não Iniciado","🟢 No Prazo","🟡 Atenção","🔴 Crítico","⚫ Encerrado"]
 PRIORIDADE_OPTS = ["Alta","Média","Baixa"]
-FASE_OPTS = ["Iniciação","Planejamento","Execução","Monitoramento","Encerramento"]
+FASE_OPTS      = ["Iniciação","Planejamento","Execução","Monitoramento","Encerramento"]
+CATEGORIA_OPTS = ["Estratégicos","Regulatórios","Operacionais","Melhorias"]
 
 CARD_CLASS = {
     "🟢 No Prazo":    "card-verde",
