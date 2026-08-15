@@ -71,6 +71,10 @@ STATUS_OPTS    = ["🔵 Não Iniciado","🟢 No Prazo","🟡 Atenção","🔴 Cr
 PRIORIDADE_OPTS = ["Alta","Média","Baixa"]
 FASE_OPTS      = ["Iniciação","Planejamento","Execução","Monitoramento","Encerramento"]
 CATEGORIA_OPTS = ["Estratégicos","Regulatórios","Operacionais","Melhorias"]
+TAREFA_STATUS  = ["Pendente","Em Andamento","Concluída","Cancelada"]
+TAREFA_CORES   = {"Pendente":"#6B7280","Em Andamento":"#0056A2",
+                  "Concluída":"#009A44","Cancelada":"#9CA3AF"}
+TAREFA_PRIOR_CORES = {"Alta":"#DC2626","Média":"#D97706","Baixa":"#6B7280"}
 
 CARD_CLASS = {
     "🟢 No Prazo":    "card-verde",
