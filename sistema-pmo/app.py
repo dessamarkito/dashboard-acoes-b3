@@ -128,10 +128,10 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
     st.markdown(f"""
-    <div style='background:#1C2333; border-radius:10px; padding:14px; margin-bottom:16px;'>
-      <div style='font-size:0.78rem; color:#AAA'>Logado como</div>
-      <div style='font-weight:700; color:#FFF'>{st.session_state.usuario['nome']}</div>
-      <div style='font-size:0.78rem; color:#009A44'>{st.session_state.usuario['email']}</div>
+    <div style='background:#F9FAFB; border:1px solid #E5E7EB; border-radius:10px; padding:12px 14px; margin-bottom:16px;'>
+      <div style='font-size:0.75rem; color:#9CA3AF'>Logado como</div>
+      <div style='font-weight:700; color:#111827'>{st.session_state.usuario['nome']}</div>
+      <div style='font-size:0.75rem; color:#0056A2'>{st.session_state.usuario['email']}</div>
     </div>
     """, unsafe_allow_html=True)
 
