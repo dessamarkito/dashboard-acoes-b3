@@ -277,3 +277,75 @@ def pmos_distintos():
     rows = [r[0] for r in c.fetchall()]
     conn.close()
     return rows
+
+# ── Tarefas ───────────────────────────────────────────────────────────
+
+def listar_tarefas(projeto_id):
+    conn = get_conn()
+    c = conn.cursor()
+    c.execute("""
+        SELECT * FROM tarefas WHERE projeto_id=?
+        ORDER BY
+            CASE prioridade WHEN 'Alta' THEN 1 WHEN 'Média' THEN 2 ELSE 3 END,
+            data_prevista ASC
+    """, (projeto_id,))
+    rows = [dict(r) for r in c.fetchall()]
+    conn.close()
+    return rows
+
+def salvar_tarefa(dados, usuario):
+    conn = get_conn()
+    c = conn.cursor()
+    if dados.get("id"):
+        c.execute("""
+            UPDATE tarefas SET
+                titulo=?, descricao=?, responsavel=?, status=?,
+                prioridade=?, data_prevista=?, data_conclusao=?
+            WHERE id=?
+        """, (
+            dados["titulo"], dados["descricao"], dados["responsavel"],
+            dados["status"], dados["prioridade"],
+            dados["data_prevista"], dados["data_conclusao"], dados["id"]
+        ))
+    else:
+        c.execute("""
+            INSERT INTO tarefas
+                (projeto_id, titulo, descricao, responsavel, status,
+                 prioridade, data_prevista, criado_por)
+            VALUES (?,?,?,?,?,?,?,?)
+        """, (
+            dados["projeto_id"], dados["titulo"], dados["descricao"],
+            dados["responsavel"], dados["status"], dados["prioridade"],
+            dados["data_prevista"], usuario
+        ))
+    conn.commit()
+    conn.close()
+
+def buscar_tarefa(tarefa_id):
+    conn = get_conn()
+    c = conn.cursor()
+    c.execute("SELECT * FROM tarefas WHERE id=?", (tarefa_id,))
+    row = c.fetchone()
+    conn.close()
+    return dict(row) if row else None
+
+def excluir_tarefa(tarefa_id):
+    conn = get_conn()
+    c = conn.cursor()
+    c.execute("DELETE FROM tarefas WHERE id=?", (tarefa_id,))
+    conn.commit()
+    conn.close()
+
+def metricas_tarefas(projeto_id):
+    conn = get_conn()
+    c = conn.cursor()
+    c.execute("SELECT status FROM tarefas WHERE projeto_id=?", (projeto_id,))
+    rows = [r[0] for r in c.fetchall()]
+    conn.close()
+    total      = len(rows)
+    concluidas = rows.count("Concluída")
+    em_andamento = rows.count("Em Andamento")
+    pendentes  = rows.count("Pendente")
+    pct        = round(concluidas / total * 100) if total else 0
+    return {"total": total, "concluidas": concluidas,
+            "em_andamento": em_andamento, "pendentes": pendentes, "pct": pct}
