@@ -1,6 +1,7 @@
 import streamlit as st
 from database import (init_db, autenticar, listar_projetos, buscar_projeto,
-                      salvar_projeto, excluir_projeto, areas_distintas, pmos_distintos)
+                      salvar_projeto, excluir_projeto, areas_distintas,
+                      pmos_distintos, trocar_senha)
 
 st.set_page_config(
     page_title="Sistema PMO",
