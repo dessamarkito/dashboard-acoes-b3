@@ -110,7 +110,7 @@ if not st.session_state.usuario:
             else:
                 st.error("E-mail ou senha incorretos.")
         st.markdown("""
-        <div style='text-align:center; color:#666; font-size:0.78rem; margin-top:16px'>
+        <div style='text-align:center; color:#9CA3AF; font-size:0.78rem; margin-top:16px'>
         Acesso restrito à equipe PMO
         </div>""", unsafe_allow_html=True)
     st.stop()
