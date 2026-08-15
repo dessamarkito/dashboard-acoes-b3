@@ -82,12 +82,31 @@ def init_db():
         c.execute("INSERT OR IGNORE INTO usuarios (nome, email, senha_hash) VALUES (?,?,?)",
                   (nome, email, hash_senha(senha)))
 
-    # Migração: adiciona coluna categoria se não existir
-    try:
-        c.execute("ALTER TABLE projetos ADD COLUMN categoria TEXT DEFAULT 'Operacionais'")
-        conn.commit()
-    except Exception:
-        pass
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS tarefas (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            projeto_id INTEGER NOT NULL,
+            titulo TEXT NOT NULL,
+            descricao TEXT,
+            responsavel TEXT,
+            status TEXT DEFAULT 'Pendente',
+            prioridade TEXT DEFAULT 'Média',
+            data_prevista TEXT,
+            data_conclusao TEXT,
+            criado_por TEXT,
+            criado_em TEXT DEFAULT (datetime('now')),
+            FOREIGN KEY (projeto_id) REFERENCES projetos(id)
+        )
+    """)
+
+    # Migrações para bancos existentes
+    for sql in [
+        "ALTER TABLE projetos ADD COLUMN categoria TEXT DEFAULT 'Operacionais'",
+    ]:
+        try:
+            c.execute(sql)
+        except Exception:
+            pass
 
     conn.commit()
     conn.close()
