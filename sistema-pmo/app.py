@@ -375,3 +375,47 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
         if cancelar:
             st.session_state.pop("editar_id", None)
             st.rerun()
+
+# ════════════════════════════════════════════════════════════════════
+# TROCAR SENHA
+# ════════════════════════════════════════════════════════════════════
+elif pagina == "🔑 Trocar Senha":
+    st.markdown('<div class="titulo-sistema">Trocar Senha</div>', unsafe_allow_html=True)
+    st.markdown('<div class="subtitulo">Altere sua senha de acesso ao sistema</div>',
+                unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    col = st.columns([1, 1.2, 1])[1]
+    with col:
+        with st.form("form_senha"):
+            st.markdown(f"""
+            <div style='background:#1C2333; border-radius:10px; padding:16px;
+                        margin-bottom:16px; text-align:center;'>
+              <div style='color:#AAA; font-size:0.85rem;'>Alterando senha para</div>
+              <div style='color:#FFF; font-weight:700;'>{st.session_state.usuario['nome']}</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+            senha_atual  = st.text_input("Senha atual", type="password")
+            nova_senha   = st.text_input("Nova senha", type="password",
+                                         help="Mínimo 6 caracteres")
+            conf_senha   = st.text_input("Confirmar nova senha", type="password")
+
+            salvar_senha = st.form_submit_button("🔑 Alterar Senha",
+                                                  type="primary",
+                                                  use_container_width=True)
+            if salvar_senha:
+                if not senha_atual or not nova_senha or not conf_senha:
+                    st.error("Preencha todos os campos.")
+                elif nova_senha != conf_senha:
+                    st.error("A nova senha e a confirmação não coincidem.")
+                else:
+                    ok, msg = trocar_senha(
+                        st.session_state.usuario["id"], senha_atual, nova_senha
+                    )
+                    if ok:
+                        st.success(f"✅ {msg} Faça login novamente.")
+                        st.session_state.usuario = None
+                        st.rerun()
+                    else:
+                        st.error(msg)
