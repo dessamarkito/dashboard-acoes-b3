@@ -465,10 +465,10 @@ elif pagina == "🔑 Trocar Senha":
     with col:
         with st.form("form_senha"):
             st.markdown(f"""
-            <div style='background:#1C2333; border-radius:10px; padding:16px;
+            <div style='background:#F9FAFB; border:1px solid #E5E7EB; border-radius:10px; padding:16px;
                         margin-bottom:16px; text-align:center;'>
-              <div style='color:#AAA; font-size:0.85rem;'>Alterando senha para</div>
-              <div style='color:#FFF; font-weight:700;'>{st.session_state.usuario['nome']}</div>
+              <div style='color:#6B7280; font-size:0.85rem;'>Alterando senha para</div>
+              <div style='color:#111827; font-weight:700;'>{st.session_state.usuario['nome']}</div>
             </div>
             """, unsafe_allow_html=True)
 
