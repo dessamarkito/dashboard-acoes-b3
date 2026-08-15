@@ -102,12 +102,12 @@ if not st.session_state.usuario:
     st.markdown("<br><br>", unsafe_allow_html=True)
     col_center = st.columns([1,1.2,1])[1]
     with col_center:
-        st.markdown("""
+        st.markdown(f"""
         <div style='text-align:center; padding:40px 30px; background:#FFFFFF;
                     border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.10);'>
-          <div style='background:linear-gradient(135deg,#002B5C,#0056A2);
-                      border-radius:8px; padding:12px 28px; display:inline-block; margin-bottom:16px;'>
-            <span style='font-size:1.8rem; font-weight:800; color:#FFF; letter-spacing:3px;'>CATENO</span>
+          <div style='background:#111827; border-radius:10px; padding:16px 28px;
+                      display:inline-block; margin-bottom:16px;'>
+            <img src='{LOGO_SRC}' style='height:52px; display:block;'>
           </div>
           <div style='font-size:1.3rem; font-weight:700; color:#111827; margin:8px 0'>Sistema PMO</div>
           <div style='color:#6B7280; font-size:0.9rem'>Controle de Projetos e Documentações</div>
