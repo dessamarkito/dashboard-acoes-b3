@@ -292,10 +292,16 @@ elif pagina == "📋 Projetos":
                 </div>
                 """, unsafe_allow_html=True)
 
-                col_e, col_x, _ = st.columns([1, 1, 8])
+                col_c, col_e, col_x, _ = st.columns([1.2, 1.2, 1.2, 6])
+                with col_c:
+                    if st.button("👁️ Consultar", key=f"vl_{p['id']}"):
+                        st.session_state["consultar_id"] = p["id"]
+                        st.session_state.pop("editar_id", None)
+                        st.rerun()
                 with col_e:
                     if st.button("✏️ Editar", key=f"ed_{p['id']}"):
                         st.session_state["editar_id"] = p["id"]
+                        st.session_state.pop("consultar_id", None)
                         st.rerun()
                 with col_x:
                     if st.button("🗑️ Excluir", key=f"ex_{p['id']}"):
