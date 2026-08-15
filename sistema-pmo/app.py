@@ -4,7 +4,7 @@ from database import (init_db, autenticar, listar_projetos, buscar_projeto,
                       pmos_distintos, trocar_senha)
 
 st.set_page_config(
-    page_title="Sistema PMO",
+    page_title="Sistema PMO | Cateno",
     page_icon="📋",
     layout="wide",
 )
