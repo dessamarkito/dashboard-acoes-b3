@@ -178,8 +178,10 @@ def salvar_projeto(dados, usuario):
             dados["forecast_custo"], dados["qtd_replanejamentos"],
             dados["motivo_replanejamento"], dados["observacoes"], usuario
         ))
+    new_id = c.lastrowid if not dados.get("id") else None
     conn.commit()
     conn.close()
+    return new_id
 
 def salvar_documento(projeto_id, nome_arquivo, tipo_arquivo, conteudo, enviado_por):
     conn = get_conn()
