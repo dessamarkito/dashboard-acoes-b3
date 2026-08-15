@@ -361,7 +361,8 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
             else:
                 dados = {
                     "id": editar_id,
-                    "nome": nome, "area_demandante": area,
+                    "nome": nome, "categoria": categoria,
+                    "area_demandante": area,
                     "pmo_responsavel": pmo, "envolvidos": envolvidos,
                     "descricao": descricao, "status": status,
                     "prioridade": prioridade, "fase": fase,
@@ -374,8 +375,11 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
                     "motivo_replanejamento": motivo,
                     "observacoes": observacoes,
                 }
-                salvar_projeto(dados, st.session_state.usuario["nome"])
-                st.session_state.pop("editar_id", None)
+                novo_id = salvar_projeto(dados, st.session_state.usuario["nome"])
+                if not editar_id and novo_id:
+                    st.session_state["editar_id"] = novo_id
+                else:
+                    st.session_state.pop("editar_id", None)
                 st.success("✅ Projeto salvo com sucesso!")
                 st.rerun()
 
