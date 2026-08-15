@@ -138,7 +138,7 @@ with st.sidebar:
     pagina = st.radio("Menu", ["🏠 Painel", "📋 Projetos", "➕ Novo Projeto", "🔑 Trocar Senha"],
                       label_visibility="collapsed")
 
-    st.markdown("<hr style='border-color:#333'>", unsafe_allow_html=True)
+    st.markdown("<hr style='border-color:#E5E7EB'>", unsafe_allow_html=True)
     if st.button("Sair", use_container_width=True):
         st.session_state.usuario = None
         st.session_state.pop("editar_id", None)
