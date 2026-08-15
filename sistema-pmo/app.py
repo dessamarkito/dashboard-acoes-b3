@@ -1,4 +1,5 @@
 import streamlit as st
+import base64, os
 from database import (init_db, autenticar, listar_projetos, buscar_projeto,
                       salvar_projeto, excluir_projeto, areas_distintas,
                       pmos_distintos, trocar_senha,
@@ -6,6 +7,13 @@ from database import (init_db, autenticar, listar_projetos, buscar_projeto,
                       baixar_documento, excluir_documento,
                       listar_tarefas, salvar_tarefa, buscar_tarefa,
                       excluir_tarefa, metricas_tarefas)
+
+def _logo_b64():
+    _path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Cateno.png")
+    with open(_path, "rb") as f:
+        return "data:image/png;base64," + base64.b64encode(f.read()).decode()
+
+LOGO_SRC = _logo_b64()
 
 st.set_page_config(
     page_title="Sistema PMO | Cateno",
