@@ -431,7 +431,7 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
                         excluir_documento(doc["id"])
                         st.rerun()
         else:
-            st.markdown("<span style='color:#777;font-size:0.88rem'>Nenhum documento anexado ainda.</span>",
+            st.markdown("<span style='color:#9CA3AF;font-size:0.88rem'>Nenhum documento anexado ainda.</span>",
                         unsafe_allow_html=True)
 
         st.markdown("<br>", unsafe_allow_html=True)
