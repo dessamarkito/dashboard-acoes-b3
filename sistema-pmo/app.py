@@ -157,6 +157,7 @@ with st.sidebar:
     if st.button("Sair", use_container_width=True):
         st.session_state.usuario = None
         st.session_state.pop("editar_id", None)
+        st.session_state.pop("consultar_id", None)
         st.rerun()
 
 # ════════════════════════════════════════════════════════════════════
