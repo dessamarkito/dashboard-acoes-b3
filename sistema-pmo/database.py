@@ -34,6 +34,7 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             codigo TEXT UNIQUE NOT NULL,
             nome TEXT NOT NULL,
+            categoria TEXT DEFAULT 'Operacionais',
             area_demandante TEXT,
             pmo_responsavel TEXT,
             envolvidos TEXT,
@@ -53,6 +54,19 @@ def init_db():
             criado_por TEXT,
             criado_em TEXT DEFAULT (datetime('now')),
             atualizado_em TEXT DEFAULT (datetime('now'))
+        )
+    """)
+
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS documentos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            projeto_id INTEGER NOT NULL,
+            nome_arquivo TEXT NOT NULL,
+            tipo_arquivo TEXT,
+            conteudo BLOB NOT NULL,
+            enviado_por TEXT,
+            enviado_em TEXT DEFAULT (datetime('now')),
+            FOREIGN KEY (projeto_id) REFERENCES projetos(id)
         )
     """)
 
