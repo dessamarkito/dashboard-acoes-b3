@@ -245,6 +245,7 @@ elif pagina == "📋 Projetos":
                   <span style='color:#CCC; font-size:0.85rem'>
                     {p['status']} &nbsp;|&nbsp; PMO: {p['pmo_responsavel'] or '—'} &nbsp;|&nbsp;
                     Fase: {p['fase'] or '—'} &nbsp;|&nbsp;
+                    Categoria: <b>{p.get('categoria') or '—'}</b> &nbsp;|&nbsp;
                     Prazo: {p['fim_previsto'] or '—'} → {p['forecast_prazo'] or '—'} &nbsp;|&nbsp;
                     Replanej.: {p['qtd_replanejamentos']}
                   </span>
