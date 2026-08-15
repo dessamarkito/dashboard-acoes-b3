@@ -198,6 +198,7 @@ if pagina == "🏠 Painel":
                 PMO: <b>{p['pmo_responsavel'] or '—'}</b> &nbsp;|&nbsp;
                 {p['status']} &nbsp;|&nbsp;
                 Fase: {p['fase'] or '—'} &nbsp;|&nbsp;
+                Categoria: <b>{p.get('categoria') or '—'}</b> &nbsp;|&nbsp;
                 Orç. Consumido: <b>{pct:.0f}%</b> &nbsp;|&nbsp;
                 Forecast: {p['forecast_prazo'] or '—'}
               </span>
