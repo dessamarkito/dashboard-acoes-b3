@@ -202,10 +202,10 @@ if pagina == "🏠 Painel":
             pct = (p["orcamento_consumido"] or 0) / (p["orcamento_aprovado"] or 1) * 100
             st.markdown(f"""
             <div class='card-projeto {css}'>
-              <b>{p['codigo']} — {p['nome']}</b>
-              &nbsp;&nbsp;<span style='color:#AAA;font-size:0.85rem'>{p['area_demandante'] or '—'}</span>
+              <b style='color:#111827;font-size:1rem'>{p['codigo']} — {p['nome']}</b>
+              &nbsp;&nbsp;<span style='color:#6B7280;font-size:0.85rem'>{p['area_demandante'] or '—'}</span>
               <br>
-              <span style='color:#CCC;font-size:0.85rem'>
+              <span style='color:#374151;font-size:0.84rem'>
                 PMO: <b>{p['pmo_responsavel'] or '—'}</b> &nbsp;|&nbsp;
                 {p['status']} &nbsp;|&nbsp;
                 Fase: {p['fase'] or '—'} &nbsp;|&nbsp;
