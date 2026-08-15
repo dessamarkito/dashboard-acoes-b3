@@ -105,15 +105,23 @@ if not st.session_state.usuario:
 # SIDEBAR
 # ════════════════════════════════════════════════════════════════════
 with st.sidebar:
+    st.markdown("""
+    <div style='background:linear-gradient(135deg,#002B5C,#0056A2);
+                border-radius:10px; padding:12px 16px; margin-bottom:16px; text-align:center;'>
+      <span style='font-size:1.4rem; font-weight:800; color:#FFF; letter-spacing:3px;'>CATENO</span><br>
+      <span style='font-size:0.7rem; color:#AAD4FF; letter-spacing:1px;'>SISTEMA PMO</span>
+    </div>
+    """, unsafe_allow_html=True)
+
     st.markdown(f"""
     <div style='background:#1C2333; border-radius:10px; padding:14px; margin-bottom:16px;'>
-      <div style='font-size:0.8rem; color:#AAA'>Logado como</div>
+      <div style='font-size:0.78rem; color:#AAA'>Logado como</div>
       <div style='font-weight:700; color:#FFF'>{st.session_state.usuario['nome']}</div>
       <div style='font-size:0.78rem; color:#009A44'>{st.session_state.usuario['email']}</div>
     </div>
     """, unsafe_allow_html=True)
 
-    pagina = st.radio("Menu", ["🏠 Painel", "📋 Projetos", "➕ Novo Projeto"],
+    pagina = st.radio("Menu", ["🏠 Painel", "📋 Projetos", "➕ Novo Projeto", "🔑 Trocar Senha"],
                       label_visibility="collapsed")
 
     st.markdown("<hr style='border-color:#333'>", unsafe_allow_html=True)
