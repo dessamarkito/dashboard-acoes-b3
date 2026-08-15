@@ -249,12 +249,12 @@ elif pagina == "📋 Projetos":
             with st.container():
                 st.markdown(f"""
                 <div class='card-projeto {css}'>
-                  <b>{p['codigo']} — {p['nome']}</b>
-                  <span style='color:#AAA; font-size:0.85rem; margin-left:10px'>
+                  <b style='color:#111827;font-size:1rem'>{p['codigo']} — {p['nome']}</b>
+                  <span style='color:#6B7280; font-size:0.85rem; margin-left:10px'>
                     {p['area_demandante'] or '—'}
                   </span><br>
-                  <span style='color:#CCC; font-size:0.85rem'>
-                    {p['status']} &nbsp;|&nbsp; PMO: {p['pmo_responsavel'] or '—'} &nbsp;|&nbsp;
+                  <span style='color:#374151; font-size:0.84rem'>
+                    {p['status']} &nbsp;|&nbsp; PMO: <b>{p['pmo_responsavel'] or '—'}</b> &nbsp;|&nbsp;
                     Fase: {p['fase'] or '—'} &nbsp;|&nbsp;
                     Categoria: <b>{p.get('categoria') or '—'}</b> &nbsp;|&nbsp;
                     Prazo: {p['fim_previsto'] or '—'} → {p['forecast_prazo'] or '—'} &nbsp;|&nbsp;
