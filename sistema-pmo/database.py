@@ -82,6 +82,13 @@ def init_db():
         c.execute("INSERT OR IGNORE INTO usuarios (nome, email, senha_hash) VALUES (?,?,?)",
                   (nome, email, hash_senha(senha)))
 
+    # Migração: adiciona coluna categoria se não existir
+    try:
+        c.execute("ALTER TABLE projetos ADD COLUMN categoria TEXT DEFAULT 'Operacionais'")
+        conn.commit()
+    except Exception:
+        pass
+
     conn.commit()
     conn.close()
 
