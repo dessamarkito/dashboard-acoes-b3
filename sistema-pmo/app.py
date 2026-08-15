@@ -3,7 +3,9 @@ from database import (init_db, autenticar, listar_projetos, buscar_projeto,
                       salvar_projeto, excluir_projeto, areas_distintas,
                       pmos_distintos, trocar_senha,
                       salvar_documento, listar_documentos,
-                      baixar_documento, excluir_documento)
+                      baixar_documento, excluir_documento,
+                      listar_tarefas, salvar_tarefa, buscar_tarefa,
+                      excluir_tarefa, metricas_tarefas)
 
 st.set_page_config(
     page_title="Sistema PMO | Cateno",
