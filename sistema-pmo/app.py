@@ -77,8 +77,11 @@ if not st.session_state.usuario:
         st.markdown("""
         <div style='text-align:center; padding:40px 30px; background:#1C2333;
                     border-radius:16px; border:1px solid #333;'>
-          <div style='font-size:2.5rem'>📋</div>
-          <div style='font-size:1.5rem; font-weight:700; color:#FFF; margin:8px 0'>Sistema PMO</div>
+          <div style='background:linear-gradient(135deg,#002B5C,#0056A2);
+                      border-radius:8px; padding:12px 24px; display:inline-block; margin-bottom:16px;'>
+            <span style='font-size:1.8rem; font-weight:800; color:#FFF; letter-spacing:3px;'>CATENO</span>
+          </div>
+          <div style='font-size:1.3rem; font-weight:700; color:#FFF; margin:8px 0'>Sistema PMO</div>
           <div style='color:#AAA; font-size:0.9rem'>Controle de Projetos e Documentações</div>
         </div>
         """, unsafe_allow_html=True)
