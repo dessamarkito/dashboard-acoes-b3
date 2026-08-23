@@ -356,7 +356,7 @@ if pagina == "🏠 Painel":
                     {p['status']} &nbsp;|&nbsp;
                     Etapa: {p.get('etapa') or '—'} &nbsp;|&nbsp;
                     Categoria: <b>{p.get('categoria') or '—'}</b> &nbsp;|&nbsp;
-                    Orç. Previsto: <b>R$ {(p.get('orcamento_previsto') or 0):,.0f}</b>
+                    Orç. Previsto: <b>R$ {(p.get('orcamento_previsto') or 0)/1_000_000:.2f} mi</b>
                   </span>
                 </div>
                 """, unsafe_allow_html=True)
@@ -413,7 +413,7 @@ elif pagina == "📋 Projetos":
                     {p['status']} &nbsp;|&nbsp; PMO: <b>{p['pmo_responsavel'] or '—'}</b> &nbsp;|&nbsp;
                     Etapa: {p.get('etapa') or '—'} &nbsp;|&nbsp;
                     Categoria: <b>{p.get('categoria') or '—'}</b> &nbsp;|&nbsp;
-                    Orç. Previsto: <b>R$ {(p.get('orcamento_previsto') or 0):,.0f}</b>
+                    Orç. Previsto: <b>R$ {(p.get('orcamento_previsto') or 0)/1_000_000:.2f} mi</b>
                   </span>
                 </div>
                 """, unsafe_allow_html=True)
