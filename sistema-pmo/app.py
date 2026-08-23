@@ -533,6 +533,14 @@ elif st.session_state.get("consultar_id"):
         st.markdown("<span style='color:#9CA3AF;font-size:0.88rem'>Nenhum documento anexado.</span>",
                     unsafe_allow_html=True)
 
+    # Histórico de status na tela de Consulta
+    historico = listar_historico_status(pid)
+    if historico:
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown("<hr style='border-color:#E5E7EB'>", unsafe_allow_html=True)
+        st.markdown("#### 🕐 Histórico de Status")
+        _render_historico(historico)
+
 # ════════════════════════════════════════════════════════════════════
 # FORMULÁRIO NOVO / EDITAR
 # ════════════════════════════════════════════════════════════════════
