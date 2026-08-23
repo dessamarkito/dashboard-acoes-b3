@@ -119,6 +119,7 @@ def init_db():
         "ALTER TABLE projetos ADD COLUMN direcionador_estrategico TEXT",
         "ALTER TABLE projetos ADD COLUMN etapa TEXT DEFAULT 'Ideação'",
         "ALTER TABLE projetos ADD COLUMN orcamento_previsto REAL DEFAULT 0",
+        "ALTER TABLE projetos ADD COLUMN obs_status TEXT",
     ]:
         try:
             c.execute(sql)
