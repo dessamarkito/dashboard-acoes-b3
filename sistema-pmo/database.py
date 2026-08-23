@@ -236,15 +236,20 @@ def salvar_projeto(dados, usuario):
                 codigo, nome, categoria, area_demandante, pmo_responsavel,
                 gerente_executivo, envolvidos, descricao,
                 status, prioridade, etapa,
-                direcionador_estrategico, orcamento_previsto, criado_por
-            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                direcionador_estrategico, orcamento_previsto, criado_por,
+                aprovado, orcamento_aprovado, inicio_previsto, fim_previsto
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         """, (
             codigo, dados["nome"], dados["categoria"], dados["area_demandante"],
             dados["pmo_responsavel"], dados.get("gerente_executivo",""),
             dados["envolvidos"], dados["descricao"],
             dados["status"], dados["prioridade"], dados["etapa"],
             dados.get("direcionador_estrategico",""),
-            dados.get("orcamento_previsto", 0), usuario
+            dados.get("orcamento_previsto", 0), usuario,
+            dados.get("aprovado", "Pendente"),
+            dados.get("orcamento_aprovado", 0),
+            dados.get("inicio_previsto"),
+            dados.get("fim_previsto"),
         ))
         new_id = c.lastrowid
         c.execute("""
