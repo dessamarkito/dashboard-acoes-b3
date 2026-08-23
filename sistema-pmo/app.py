@@ -30,12 +30,24 @@ st.markdown("""
   /* Fundo geral */
   .stApp, .main, [data-testid="stAppViewContainer"] {
     background: #F0F2F6 !important;
+    overflow-x: hidden !important;
   }
   [data-testid="stSidebar"] {
     background: #FFFFFF !important;
     border-right: 1px solid #E5E7EB !important;
+    min-width: 220px !important;
+    max-width: 240px !important;
   }
-  .block-container { padding-top:1.5rem; }
+  [data-testid="stSidebarContent"] {
+    padding: 1rem 0.75rem !important;
+  }
+  .block-container {
+    padding-top: 1.5rem !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
 
   /* Campos de input — fundo azul-gelo para destacar sobre o card branco */
   .stTextInput input,
