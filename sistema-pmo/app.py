@@ -520,7 +520,7 @@ elif st.session_state.get("consultar_id"):
         st.markdown(f"""
         <div style='background:#FFFFFF;border:1px solid #E5E7EB;border-radius:10px;padding:20px;'>
           <div style='font-size:0.8rem;font-weight:700;color:#6B7280;margin-bottom:14px;text-transform:uppercase;letter-spacing:0.5px'>Orçamento e Estratégia</div>
-          {campo("Orçamento Previsto", f"R$ {orc_prev:,.2f}".replace(",","X").replace(".",",").replace("X","."))}
+          {campo("Orçamento Previsto", f"R$ {orc_prev/1_000_000:.3f} mi  (R$ {orc_prev:,.0f})".replace(",","X").replace(".",",").replace("X","."))}
           {campo("Direcionador Estratégico", p.get('direcionador_estrategico'))}
           {campo("Etapa Atual", p.get('etapa'))}
         </div>
