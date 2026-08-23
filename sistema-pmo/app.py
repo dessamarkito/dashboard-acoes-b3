@@ -1,5 +1,7 @@
 import streamlit as st
 import base64, os
+import pandas as pd
+from datetime import datetime, date
 from database import (init_db, autenticar, listar_projetos, buscar_projeto,
                       salvar_projeto, excluir_projeto, areas_distintas,
                       pmos_distintos, trocar_senha,
@@ -7,7 +9,9 @@ from database import (init_db, autenticar, listar_projetos, buscar_projeto,
                       baixar_documento, excluir_documento,
                       listar_tarefas, salvar_tarefa, buscar_tarefa,
                       excluir_tarefa, metricas_tarefas,
-                      listar_historico_status)
+                      listar_historico_status,
+                      listar_plano_custos, salvar_plano_custos,
+                      metricas_custos, metricas_portfolio, encerrar_projeto)
 
 def _logo_b64():
     _path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Cateno.png")
