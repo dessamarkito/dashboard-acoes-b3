@@ -6,7 +6,8 @@ from database import (init_db, autenticar, listar_projetos, buscar_projeto,
                       salvar_documento, listar_documentos,
                       baixar_documento, excluir_documento,
                       listar_tarefas, salvar_tarefa, buscar_tarefa,
-                      excluir_tarefa, metricas_tarefas)
+                      excluir_tarefa, metricas_tarefas,
+                      listar_historico_status)
 
 def _logo_b64():
     _path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Cateno.png")
