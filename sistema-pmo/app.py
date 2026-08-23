@@ -320,56 +320,65 @@ if pagina == "🏠 Painel":
     st.markdown("<br>", unsafe_allow_html=True)
 
     projetos = listar_projetos()
-    total    = len(projetos)
+    ativos      = [p for p in projetos if p["status"] != "⚫ Encerrado"]
+    encerrados  = [p for p in projetos if p["status"] == "⚫ Encerrado"]
+    total = len(ativos)
 
-    if total == 0:
+    if len(projetos) == 0:
         st.info("Nenhum projeto cadastrado ainda. Acesse **Novo Projeto** para começar.")
     else:
-        no_prazo  = sum(1 for p in projetos if p["status"] == "🟢 No Prazo")
-        atencao   = sum(1 for p in projetos if p["status"] == "🟡 Atenção")
-        critico   = sum(1 for p in projetos if p["status"] == "🔴 Crítico")
-        nao_inic  = sum(1 for p in projetos if p["status"] == "🔵 Não Iniciado")
-        orc_tot   = sum(p["orcamento_aprovado"] or 0 for p in projetos)
-        cons_tot  = sum(p["orcamento_consumido"] or 0 for p in projetos)
-        fc_tot    = sum(p["forecast_custo"] or 0 for p in projetos)
+        no_prazo = sum(1 for p in ativos if p["status"] == "🟢 No Prazo")
+        atencao  = sum(1 for p in ativos if p["status"] == "🟡 Atenção")
+        critico  = sum(1 for p in ativos if p["status"] == "🔴 Crítico")
+        nao_inic = sum(1 for p in ativos if p["status"] == "🔵 Não Iniciado")
+        met_port = metricas_portfolio()
+        cons_tot = met_port["total_consumido"]
+        fc_tot   = met_port["forecast"]
+        orc_tot  = sum(p.get("orcamento_aprovado") or 0 for p in ativos)
 
         k1,k2,k3,k4,k5,k6,k7 = st.columns(7)
-        def kpi(col, label, val, color="#FFFFFF"):
+        def kpi(col, label, val, color="#111827"):
             col.markdown(f"""
             <div class='kpi'>
               <div class='kpi-val' style='color:{color}'>{val}</div>
               <div class='kpi-lbl'>{label}</div>
             </div>""", unsafe_allow_html=True)
 
-        kpi(k1, "Total",        total,     "#111827")
-        kpi(k2, "🟢 No Prazo",  no_prazo,  "#009A44")
-        kpi(k3, "🟡 Atenção",   atencao,   "#D97706")
-        kpi(k4, "🔴 Crítico",   critico,   "#DC2626")
-        kpi(k5, "🔵 Não Inic.", nao_inic,  "#0056A2")
-        kpi(k6, "Consumido",    f"R${cons_tot/1e6:.1f}M", "#374151")
+        kpi(k1, "Ativos",       total,                   "#111827")
+        kpi(k2, "🟢 No Prazo",  no_prazo,                "#009A44")
+        kpi(k3, "🟡 Atenção",   atencao,                 "#D97706")
+        kpi(k4, "🔴 Crítico",   critico,                 "#DC2626")
+        kpi(k5, "🔵 Não Inic.", nao_inic,                "#0056A2")
+        kpi(k6, "Consumido",    f"R${cons_tot/1e6:.1f}M","#374151")
         kpi(k7, "Forecast",
             f"R${fc_tot/1e6:.1f}M",
-            "#DC2626" if fc_tot > orc_tot else "#009A44")
+            "#DC2626" if fc_tot > orc_tot and orc_tot > 0 else "#009A44")
 
         st.markdown("<br>", unsafe_allow_html=True)
 
         # Críticos em destaque
-        criticos = [p for p in projetos if p["status"] == "🔴 Crítico"]
+        criticos = [p for p in ativos if p["status"] == "🔴 Crítico"]
         if criticos:
             st.markdown("#### 🚨 Projetos Críticos")
             for p in criticos:
-                st.error(f"**{p['codigo']} — {p['nome']}** | PMO: {p['pmo_responsavel']} "
-                         f"| Forecast: {p['forecast_prazo'] or '—'} "
-                         f"| Replanej.: {p['qtd_replanejamentos']}")
+                st.error(f"**{p['codigo']} — {p['nome']}** | PMO: {p['pmo_responsavel'] or '—'}")
 
-        st.markdown("#### Todos os Projetos")
-        for p in projetos:
+        st.markdown("#### Projetos Ativos")
+        if not ativos:
+            st.info("Nenhum projeto ativo no momento.")
+        for p in ativos:
             css = CARD_CLASS.get(p["status"], "")
+            aprov_badge = ""
+            if p.get("aprovado") == "Sim":
+                aprov_badge = "<span style='background:#D1FAE5;color:#065F46;font-size:0.72rem;font-weight:700;padding:2px 8px;border-radius:99px;margin-left:8px'>✅ Aprovado</span>"
+            elif p.get("aprovado") == "Não":
+                aprov_badge = "<span style='background:#FEE2E2;color:#991B1B;font-size:0.72rem;font-weight:700;padding:2px 8px;border-radius:99px;margin-left:8px'>❌ Não Aprovado</span>"
             col_card, col_btn = st.columns([9, 1])
             with col_card:
                 st.markdown(f"""
                 <div class='card-projeto {css}'>
                   <b style='color:#111827;font-size:1rem'>{p['codigo']} — {p['nome']}</b>
+                  {aprov_badge}
                   &nbsp;&nbsp;<span style='color:#6B7280;font-size:0.85rem'>{p['area_demandante'] or '—'}</span>
                   <br>
                   <span style='color:#374151;font-size:0.84rem'>
@@ -383,15 +392,40 @@ if pagina == "🏠 Painel":
                 """, unsafe_allow_html=True)
             with col_btn:
                 st.markdown("<div style='padding-top:6px'>", unsafe_allow_html=True)
-                if st.button("👁️", key=f"vp_{p['id']}", help="Consultar projeto"):
+                if st.button("👁️", key=f"vp_{p['id']}", help="Consultar"):
                     st.session_state["consultar_id"] = p["id"]
                     st.session_state.pop("editar_id", None)
                     st.rerun()
-                if st.button("✏️", key=f"ep_{p['id']}", help="Editar projeto"):
+                if st.button("✏️", key=f"ep_{p['id']}", help="Editar"):
                     st.session_state["editar_id"] = p["id"]
                     st.session_state.pop("consultar_id", None)
                     st.rerun()
                 st.markdown("</div>", unsafe_allow_html=True)
+
+        # Encerrados
+        if encerrados:
+            st.markdown("<br>", unsafe_allow_html=True)
+            st.markdown("#### ⚫ Projetos Encerrados / Não Aprovados")
+            for p in encerrados:
+                motivo = p.get("aprovado","")
+                tag = " — Não Aprovado" if motivo == "Não" else ""
+                col_card, col_btn = st.columns([9, 1])
+                with col_card:
+                    st.markdown(f"""
+                    <div class='card-projeto' style='opacity:0.65;border-left-color:#9CA3AF'>
+                      <b style='color:#6B7280'>{p['codigo']} — {p['nome']}</b>{tag}
+                      <br>
+                      <span style='color:#9CA3AF;font-size:0.82rem'>
+                        PMO: {p['pmo_responsavel'] or '—'} &nbsp;|&nbsp;
+                        Categoria: {p.get('categoria') or '—'} &nbsp;|&nbsp;
+                        Encerrado
+                      </span>
+                    </div>""", unsafe_allow_html=True)
+                with col_btn:
+                    if st.button("👁️", key=f"ve_{p['id']}", help="Consultar"):
+                        st.session_state["consultar_id"] = p["id"]
+                        st.session_state.pop("editar_id", None)
+                        st.rerun()
 
 # ════════════════════════════════════════════════════════════════════
 # LISTA DE PROJETOS
