@@ -601,6 +601,7 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
                     "qtd_replanejamentos": qtd_rep,
                     "motivo_replanejamento": motivo,
                     "observacoes": observacoes,
+                    "obs_status": obs_status,
                 }
                 novo_id = salvar_projeto(dados, st.session_state.usuario["nome"])
                 if not editar_id and novo_id:
