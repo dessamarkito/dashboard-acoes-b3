@@ -202,7 +202,8 @@ def salvar_projeto(dados, usuario):
                 gerente_executivo=?, envolvidos=?, descricao=?,
                 status=?, prioridade=?, etapa=?,
                 direcionador_estrategico=?, orcamento_previsto=?,
-                obs_status=?,
+                obs_status=?, aprovado=?, orcamento_aprovado=?,
+                inicio_previsto=?, fim_previsto=?,
                 atualizado_em=datetime('now')
             WHERE id=?
         """, (
@@ -213,6 +214,10 @@ def salvar_projeto(dados, usuario):
             dados.get("direcionador_estrategico",""),
             dados.get("orcamento_previsto", 0),
             dados.get("obs_status",""),
+            dados.get("aprovado", "Pendente"),
+            dados.get("orcamento_aprovado", 0),
+            dados.get("inicio_previsto"),
+            dados.get("fim_previsto"),
             dados["id"]
         ))
 
