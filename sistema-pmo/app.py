@@ -430,7 +430,7 @@ if pagina == "🏠 Painel":
 # ════════════════════════════════════════════════════════════════════
 # LISTA DE PROJETOS
 # ════════════════════════════════════════════════════════════════════
-elif pagina == "📋 Projetos":
+elif pagina == "📋 Projetos" and not st.session_state.get("editar_id") and not st.session_state.get("consultar_id"):
     st.markdown('<div class="titulo-sistema">Projetos</div>', unsafe_allow_html=True)
     st.markdown('<div class="subtitulo">Gerencie, edite e exclua projetos</div>',
                 unsafe_allow_html=True)
