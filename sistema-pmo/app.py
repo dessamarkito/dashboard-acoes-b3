@@ -676,7 +676,7 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
     st.markdown("<br>", unsafe_allow_html=True)
 
     # ── Stepper visual ────────────────────────────────────────────────
-    n_steps = 4 if editar_id else 3
+    is_aprov = p.get("aprovado") == "Sim"
     _s = lambda n,lbl,sub: f"""
       <div class='step'>
         <div class='step-num ativo'>{n}</div>
@@ -684,16 +684,17 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
              <div class='step-sublabel'>{sub}</div></div>
       </div>"""
     _div = "<div class='step-divider'></div>"
-    _status_step = _s(4,"Status","Atualizar e registrar") if editar_id else ""
-    _div4        = _div if editar_id else ""
+    _crono_step  = f"{_div}{_s(4,'Cronograma','Início e fim')}" if is_aprov else ""
+    _n_status    = 5 if is_aprov else (4 if editar_id else 3)
+    _status_step = f"{_div}{_s(_n_status,'Status','Atualizar e registrar')}" if editar_id else ""
     st.markdown(f"""
     <div class='stepper'>
       {_s(1,"Identificação","Equipe e descrição")}
       {_div}
       {_s(2,"Classificação","Categoria e etapa")}
       {_div}
-      {_s(3,"Orçamento","Valor previsto")}
-      {_div4}
+      {_s(3,"Orçamento","Aprovação e valores")}
+      {_crono_step}
       {_status_step}
     </div>
     """, unsafe_allow_html=True)
