@@ -420,3 +420,78 @@ def metricas_tarefas(projeto_id):
     pct        = round(concluidas / total * 100) if total else 0
     return {"total": total, "concluidas": concluidas,
             "em_andamento": em_andamento, "pendentes": pendentes, "pct": pct}
+
+# ── Plano de Custos ───────────────────────────────────────────────────
+
+def listar_plano_custos(projeto_id):
+    conn = get_conn()
+    c = conn.cursor()
+    c.execute("""
+        SELECT * FROM plano_custos WHERE projeto_id=?
+        ORDER BY competencia ASC
+    """, (projeto_id,))
+    rows = [dict(r) for r in c.fetchall()]
+    conn.close()
+    return rows
+
+def salvar_plano_custos(projeto_id, rows):
+    conn = get_conn()
+    c = conn.cursor()
+    c.execute("DELETE FROM plano_custos WHERE projeto_id=?", (projeto_id,))
+    for r in rows:
+        c.execute("""
+            INSERT INTO plano_custos (projeto_id, competencia, valor_planejado, valor_consumido)
+            VALUES (?,?,?,?)
+        """, (projeto_id, r["competencia"], r["valor_planejado"], r["valor_consumido"]))
+    conn.commit()
+    conn.close()
+
+def metricas_custos(projeto_id):
+    conn = get_conn()
+    c = conn.cursor()
+    c.execute("SELECT competencia, valor_planejado, valor_consumido FROM plano_custos WHERE projeto_id=?",
+              (projeto_id,))
+    rows = [dict(r) for r in c.fetchall()]
+    conn.close()
+    if not rows:
+        return {"total_planejado": 0, "total_consumido": 0, "forecast": 0}
+    agora = datetime.now()
+    comp_atual = f"{agora.year}-{agora.month:02d}"
+    total_planejado = sum(r["valor_planejado"] for r in rows)
+    total_consumido = sum(r["valor_consumido"] for r in rows)
+    forecast = sum(r["valor_consumido"] if r["competencia"] < comp_atual else r["valor_planejado"]
+                   for r in rows)
+    return {"total_planejado": total_planejado, "total_consumido": total_consumido, "forecast": forecast}
+
+def metricas_portfolio():
+    conn = get_conn()
+    c = conn.cursor()
+    agora = datetime.now()
+    comp_atual = f"{agora.year}-{agora.month:02d}"
+    c.execute("SELECT SUM(valor_planejado) as tp, SUM(valor_consumido) as tc FROM plano_custos")
+    r = c.fetchone()
+    total_planejado = r["tp"] or 0
+    total_consumido = r["tc"] or 0
+    c.execute("SELECT SUM(valor_consumido) as v FROM plano_custos WHERE competencia < ?", (comp_atual,))
+    passado = (c.fetchone()["v"] or 0)
+    c.execute("SELECT SUM(valor_planejado) as v FROM plano_custos WHERE competencia >= ?", (comp_atual,))
+    futuro = (c.fetchone()["v"] or 0)
+    conn.close()
+    return {"total_planejado": total_planejado, "total_consumido": total_consumido,
+            "forecast": passado + futuro}
+
+def encerrar_projeto(projeto_id, motivo, usuario):
+    conn = get_conn()
+    c = conn.cursor()
+    c.execute("SELECT status FROM projetos WHERE id=?", (projeto_id,))
+    row = c.fetchone()
+    status_anterior = row["status"] if row else None
+    c.execute("""
+        UPDATE projetos SET status='⚫ Encerrado', atualizado_em=datetime('now') WHERE id=?
+    """, (projeto_id,))
+    c.execute("""
+        INSERT INTO historico_status (projeto_id, status_anterior, status_novo, observacao, alterado_por)
+        VALUES (?,?,?,?,?)
+    """, (projeto_id, status_anterior, "⚫ Encerrado", motivo, usuario))
+    conn.commit()
+    conn.close()
