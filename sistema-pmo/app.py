@@ -525,7 +525,7 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
         st.markdown("#### Status e Classificação")
         c5, c6, c7, c8 = st.columns(4)
         with c5:
-            status = st.selectbox("Status *", STATUS_OPTS,
+            status = st.selectbox("Status Atual *", STATUS_OPTS,
                                   index=STATUS_OPTS.index(p["status"]) if p.get("status") in STATUS_OPTS else 0)
         with c6:
             prioridade = st.selectbox("Prioridade", PRIORIDADE_OPTS,
@@ -537,6 +537,12 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
             _cat_default = p.get("categoria","Operacionais") or "Operacionais"
             categoria = st.selectbox("Categoria", CATEGORIA_OPTS,
                                      index=CATEGORIA_OPTS.index(_cat_default) if _cat_default in CATEGORIA_OPTS else 2)
+
+        obs_status = st.text_input(
+            "Motivo da mudança de status (opcional)",
+            placeholder="Ex: Aprovação do sponsor recebida, dependência resolvida...",
+            help="Salvo no histórico somente quando o Status Atual for alterado."
+        )
 
         st.markdown("#### Cronograma")
         d1, d2, d3 = st.columns(3)
