@@ -37,6 +37,76 @@ st.markdown("""
   }
   .block-container { padding-top:1.5rem; }
 
+  /* Campos de input — fundo branco e borda suave */
+  .stTextInput input,
+  .stTextArea textarea,
+  .stNumberInput input {
+    background-color: #FFFFFF !important;
+    border: 1px solid #D1D5DB !important;
+    border-radius: 8px !important;
+    color: #111827 !important;
+    font-size: 0.92rem !important;
+  }
+  .stTextInput input:focus,
+  .stTextArea textarea:focus,
+  .stNumberInput input:focus {
+    border-color: #0056A2 !important;
+    box-shadow: 0 0 0 3px rgba(0,86,162,0.12) !important;
+  }
+  .stSelectbox > div > div {
+    background-color: #FFFFFF !important;
+    border: 1px solid #D1D5DB !important;
+    border-radius: 8px !important;
+  }
+  /* Labels dos campos */
+  .stTextInput label, .stTextArea label,
+  .stSelectbox label, .stNumberInput label {
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    color: #374151 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  /* Seções do formulário */
+  .form-secao {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    border: 1px solid #E5E7EB;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  .form-secao-titulo {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #0056A2;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 2px solid #EFF6FF;
+    padding-bottom: 10px;
+    margin-bottom: 18px;
+  }
+
+  /* Step indicator */
+  .stepper {
+    display: flex; align-items: center; gap: 0;
+    background: #FFFFFF; border-radius: 12px;
+    border: 1px solid #E5E7EB; padding: 16px 24px;
+    margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  .step { display:flex; align-items:center; gap:10px; flex:1; }
+  .step-num {
+    width:28px; height:28px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.78rem; font-weight:700; flex-shrink:0;
+  }
+  .step-num.ativo  { background:#0056A2; color:#FFF; }
+  .step-num.futuro { background:#E5E7EB; color:#9CA3AF; }
+  .step-label { font-size:0.82rem; font-weight:600; color:#374151; }
+  .step-sublabel { font-size:0.72rem; color:#9CA3AF; }
+  .step-divider { width:40px; height:2px; background:#E5E7EB; margin:0 8px; }
+
   /* Títulos */
   .titulo-sistema {
     font-size:1.5rem; font-weight:700; color:#111827;
@@ -46,10 +116,8 @@ st.markdown("""
 
   /* Cards de projeto */
   .card-projeto {
-    background:#FFFFFF;
-    border-radius:10px;
-    padding:16px 20px;
-    margin-bottom:10px;
+    background:#FFFFFF; border-radius:10px;
+    padding:16px 20px; margin-bottom:10px;
     border-left:4px solid #D1D5DB;
     box-shadow:0 1px 4px rgba(0,0,0,0.07);
   }
@@ -67,10 +135,7 @@ st.markdown("""
   .kpi-val { font-size:1.9rem; font-weight:700; color:#111827; }
   .kpi-lbl { font-size:0.75rem; color:#6B7280; margin-top:2px; }
 
-  /* Divider */
   .divider { border-top:1px solid #E5E7EB; margin:16px 0; }
-
-  /* Texto geral dos cards */
   .card-projeto b { color:#111827; }
   .card-projeto span { color:#374151; }
 </style>
