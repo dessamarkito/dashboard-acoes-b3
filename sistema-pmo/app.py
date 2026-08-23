@@ -852,6 +852,90 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
             st.session_state.pop("editar_id", None)
             st.rerun()
 
+    # ── Plano de Custos Mensais (somente quando aprovado) ────────────
+    if editar_id and p.get("aprovado") == "Sim":
+        st.markdown("<hr style='border-color:#E5E7EB; margin:28px 0'>", unsafe_allow_html=True)
+        st.markdown("#### 💰 Plano de Custos Mensais")
+
+        met_c = metricas_custos(editar_id)
+        mc1, mc2, mc3, mc4 = st.columns(4)
+        orc_aprov_val = float(p.get("orcamento_aprovado") or 0)
+        def _kpi_mini(col, lbl, val_r, cor):
+            col.markdown(f"""
+            <div style='background:#FFFFFF;border:1px solid #E5E7EB;border-radius:10px;
+                        padding:12px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.05)'>
+              <div style='font-size:1.3rem;font-weight:700;color:{cor}'>R$ {val_r/1e6:.2f}M</div>
+              <div style='font-size:0.72rem;color:#6B7280;margin-top:2px'>{lbl}</div>
+            </div>""", unsafe_allow_html=True)
+        _kpi_mini(mc1, "Orç. Aprovado",  orc_aprov_val,                "#0056A2")
+        _kpi_mini(mc2, "Total Planejado", met_c["total_planejado"],     "#374151")
+        _kpi_mini(mc3, "Total Consumido", met_c["total_consumido"],     "#D97706")
+        _kpi_mini(mc4, "Forecast",        met_c["forecast"],
+                  "#DC2626" if met_c["forecast"] > orc_aprov_val and orc_aprov_val > 0 else "#009A44")
+
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.caption("Edite a tabela abaixo e clique em **Salvar Plano** para registrar. "
+                   "Valores em R$ milhões. Competência no formato YYYY-MM (ex: 2025-03).")
+
+        rows_db = listar_plano_custos(editar_id)
+        MESES_OPTS = [f"{datetime.now().year}-{m:02d}" for m in range(1, 13)]
+        if rows_db:
+            df_custos = pd.DataFrame(rows_db)[["competencia","valor_planejado","valor_consumido"]]
+            df_custos["valor_planejado"] = df_custos["valor_planejado"] / 1_000_000
+            df_custos["valor_consumido"] = df_custos["valor_consumido"] / 1_000_000
+        else:
+            df_custos = pd.DataFrame(columns=["competencia","valor_planejado","valor_consumido"])
+
+        df_editado = st.data_editor(
+            df_custos,
+            column_config={
+                "competencia":     st.column_config.TextColumn("Competência (AAAA-MM)", help="Ex: 2025-03"),
+                "valor_planejado": st.column_config.NumberColumn("Planejado (R$ mi)", min_value=0, format="%.3f"),
+                "valor_consumido": st.column_config.NumberColumn("Consumido (R$ mi)", min_value=0, format="%.3f"),
+            },
+            num_rows="dynamic",
+            use_container_width=True,
+            hide_index=True,
+            key=f"editor_custos_{editar_id}",
+        )
+
+        if st.button("💾 Salvar Plano de Custos", key="salvar_custos"):
+            rows_salvar = []
+            for _, row in df_editado.iterrows():
+                comp = str(row.get("competencia","")).strip()
+                if comp and len(comp) == 7 and comp[4] == "-":
+                    rows_salvar.append({
+                        "competencia":     comp,
+                        "valor_planejado": float(row.get("valor_planejado") or 0) * 1_000_000,
+                        "valor_consumido": float(row.get("valor_consumido") or 0) * 1_000_000,
+                    })
+            salvar_plano_custos(editar_id, rows_salvar)
+            st.success("✅ Plano de custos salvo!")
+            st.rerun()
+
+    # ── Encerrar Projeto (quando não aprovado) ────────────────────────
+    if editar_id and p.get("aprovado") == "Não":
+        st.markdown("<hr style='border-color:#FEE2E2; margin:28px 0'>", unsafe_allow_html=True)
+        st.markdown("""
+        <div style='background:#FFF5F5;border:1px solid #FCA5A5;border-radius:12px;padding:20px 24px;'>
+          <div style='font-size:0.9rem;font-weight:700;color:#991B1B;margin-bottom:8px'>
+            ⛔ Projeto Não Aprovado
+          </div>
+          <div style='font-size:0.85rem;color:#7F1D1D'>
+            Este projeto foi marcado como <b>Não Aprovado</b>. Você pode encerrá-lo formalmente
+            abaixo. Ele ficará registrado no Painel Executivo na seção de encerrados.
+          </div>
+        </div>""", unsafe_allow_html=True)
+        st.markdown("<br>", unsafe_allow_html=True)
+        motivo_enc = st.text_input("Motivo do encerramento (opcional)",
+                                   placeholder="Ex: Business case não aprovado pelo comitê")
+        if st.button("⛔ Encerrar Projeto", type="primary", key="btn_encerrar"):
+            encerrar_projeto(editar_id, motivo_enc or "Projeto não aprovado",
+                             st.session_state.usuario["nome"])
+            st.session_state.pop("editar_id", None)
+            st.success("Projeto encerrado e registrado no Painel.")
+            st.rerun()
+
     # ── Histórico de Status ───────────────────────────────────────────
     if editar_id:
         historico = listar_historico_status(editar_id)
