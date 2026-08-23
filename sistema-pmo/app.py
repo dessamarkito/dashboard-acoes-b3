@@ -41,8 +41,13 @@ st.markdown("""
   [data-testid="stSidebarContent"] {
     padding: 1rem 0.75rem !important;
   }
+  /* Esconde a barra padrão do Streamlit que cortava o topo */
+  header[data-testid="stHeader"] { display: none !important; }
+  #MainMenu { display: none !important; }
+  footer { display: none !important; }
+
   .block-container {
-    padding-top: 1.5rem !important;
+    padding-top: 2rem !important;
     padding-left: 1.5rem !important;
     padding-right: 1.5rem !important;
     max-width: 100% !important;
