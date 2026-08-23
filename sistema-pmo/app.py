@@ -47,7 +47,7 @@ st.markdown("""
   footer { display: none !important; }
 
   .block-container {
-    padding-top: 2rem !important;
+    padding-top: 4rem !important;
     padding-left: 1.5rem !important;
     padding-right: 1.5rem !important;
     max-width: 100% !important;
