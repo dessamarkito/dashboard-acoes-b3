@@ -595,25 +595,58 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
     st.markdown(f'<div class="titulo-sistema">{titulo}</div>', unsafe_allow_html=True)
     st.markdown("<br>", unsafe_allow_html=True)
 
+    # ── Stepper visual ────────────────────────────────────────────────
+    n_steps = 4 if editar_id else 3
+    _s = lambda n,lbl,sub: f"""
+      <div class='step'>
+        <div class='step-num ativo'>{n}</div>
+        <div><div class='step-label'>{lbl}</div>
+             <div class='step-sublabel'>{sub}</div></div>
+      </div>"""
+    _div = "<div class='step-divider'></div>"
+    _status_step = _s(4,"Status","Atualizar e registrar") if editar_id else ""
+    _div4        = _div if editar_id else ""
+    st.markdown(f"""
+    <div class='stepper'>
+      {_s(1,"Identificação","Equipe e descrição")}
+      {_div}
+      {_s(2,"Classificação","Categoria e etapa")}
+      {_div}
+      {_s(3,"Orçamento","Valor previsto")}
+      {_div4}
+      {_status_step}
+    </div>
+    """, unsafe_allow_html=True)
+
     with st.form("form_projeto", clear_on_submit=False):
-        st.markdown("#### Identificação")
+
+        # ── Seção 1: Identificação ────────────────────────────────────
+        st.markdown("<div class='form-secao'><div class='form-secao-titulo'>① Identificação do Projeto</div>",
+                    unsafe_allow_html=True)
         f1, f2 = st.columns(2)
         with f1:
-            nome = st.text_input("Nome do Projeto *", value=p.get("nome",""))
+            nome = st.text_input("Nome do Projeto *", value=p.get("nome",""),
+                                 placeholder="Nome completo do projeto")
         with f2:
-            area = st.text_input("Área Demandante *", value=p.get("area_demandante",""))
-
+            area = st.text_input("Área Demandante *", value=p.get("area_demandante",""),
+                                 placeholder="Área solicitante")
         f3, f4 = st.columns(2)
         with f3:
-            pmo = st.text_input("PMO Responsável *", value=p.get("pmo_responsavel",""))
+            pmo = st.text_input("PMO Responsável *", value=p.get("pmo_responsavel",""),
+                                placeholder="Nome do PMO responsável")
         with f4:
-            gerente = st.text_input("Gerente Executivo Responsável", value=p.get("gerente_executivo",""))
-
+            gerente = st.text_input("Gerente Executivo Responsável",
+                                    value=p.get("gerente_executivo",""),
+                                    placeholder="Nome do gerente executivo")
         envolvidos = st.text_input("Envolvidos", value=p.get("envolvidos",""),
                                    placeholder="Nomes separados por vírgula")
-        descricao  = st.text_area("Descrição do Projeto", value=p.get("descricao",""), height=100)
+        descricao  = st.text_area("Descrição do Projeto", value=p.get("descricao",""),
+                                  height=110, placeholder="Descreva o objetivo e escopo do projeto...")
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        st.markdown("#### Classificação")
+        # ── Seção 2: Classificação ────────────────────────────────────
+        st.markdown("<div class='form-secao'><div class='form-secao-titulo'>② Classificação</div>",
+                    unsafe_allow_html=True)
         g1, g2, g3 = st.columns(3)
         with g1:
             _prior = p.get("prioridade","Média") or "Média"
@@ -627,18 +660,23 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
             _etapa = p.get("etapa","Ideação") or "Ideação"
             etapa = st.selectbox("Etapa", ETAPA_OPTS,
                                  index=ETAPA_OPTS.index(_etapa) if _etapa in ETAPA_OPTS else 0)
-
         direcionador = st.text_input("Direcionador Estratégico",
                                      value=p.get("direcionador_estrategico",""),
-                                     placeholder="Ex: Transformação Digital, Eficiência Operacional...")
+                                     placeholder="Ex: Transformação Digital, Redução de Custos...")
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        st.markdown("#### Orçamento")
+        # ── Seção 3: Orçamento ────────────────────────────────────────
+        st.markdown("<div class='form-secao'><div class='form-secao-titulo'>③ Orçamento</div>",
+                    unsafe_allow_html=True)
         orc_prev = st.number_input("Orçamento Previsto (R$)", min_value=0.0,
-                                   value=float(p.get("orcamento_previsto") or 0), step=1000.0,
-                                   format="%.2f")
+                                   value=float(p.get("orcamento_previsto") or 0),
+                                   step=1000.0, format="%.2f")
+        st.markdown("</div>", unsafe_allow_html=True)
 
+        # ── Seção 4: Status (somente edição) ─────────────────────────
         if editar_id:
-            st.markdown("#### Status Atual")
+            st.markdown("<div class='form-secao'><div class='form-secao-titulo'>④ Status Atual</div>",
+                        unsafe_allow_html=True)
             h1, h2 = st.columns([1, 2])
             with h1:
                 _st = p.get("status","🔵 Não Iniciado") or "🔵 Não Iniciado"
@@ -646,13 +684,14 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
                                       index=STATUS_OPTS.index(_st) if _st in STATUS_OPTS else 0)
             with h2:
                 obs_status = st.text_input("Motivo da mudança (opcional)",
-                                           placeholder="Registrado no histórico ao mudar o status")
+                                           placeholder="Registrado automaticamente no histórico ao alterar o status")
+            st.markdown("</div>", unsafe_allow_html=True)
         else:
             status     = "🔵 Não Iniciado"
             obs_status = ""
 
         st.markdown("<br>", unsafe_allow_html=True)
-        c_salvar, c_cancelar = st.columns([1, 1])
+        c_salvar, c_cancelar = st.columns([2, 1])
         with c_salvar:
             salvar = st.form_submit_button("💾 Salvar Projeto", type="primary", use_container_width=True)
         with c_cancelar:
@@ -660,7 +699,7 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
 
         if salvar:
             if not nome or not area or not pmo:
-                st.error("Preencha os campos obrigatórios: Nome, Área Demandante e PMO Responsável.")
+                st.error("Preencha os campos obrigatórios: Nome do Projeto, Área Demandante e PMO Responsável.")
             else:
                 dados = {
                     "id": editar_id,
