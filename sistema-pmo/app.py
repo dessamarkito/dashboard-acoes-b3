@@ -85,6 +85,44 @@ TAREFA_CORES   = {"Pendente":"#6B7280","Em Andamento":"#0056A2",
                   "Concluída":"#009A44","Cancelada":"#9CA3AF"}
 TAREFA_PRIOR_CORES = {"Alta":"#DC2626","Média":"#D97706","Baixa":"#6B7280"}
 
+STATUS_CORES = {
+    "🟢 No Prazo":    "#009A44",
+    "🟡 Atenção":     "#D97706",
+    "🔴 Crítico":     "#DC2626",
+    "🔵 Não Iniciado":"#0056A2",
+    "⚫ Encerrado":   "#6B7280",
+}
+
+def _render_historico(historico):
+    for i, h in enumerate(historico):
+        cor = STATUS_CORES.get(h["status_novo"], "#6B7280")
+        is_last = (i == len(historico) - 1)
+        ant = h["status_anterior"] or "—"
+        data = h["alterado_em"][:16].replace("T", " ") if h["alterado_em"] else "—"
+        obs  = f"<br><span style='color:#6B7280;font-size:0.78rem;font-style:italic'>\"{h['observacao']}\"</span>" if h.get("observacao") else ""
+        st.markdown(f"""
+        <div style='display:flex; gap:14px; margin-bottom:4px;'>
+          <div style='display:flex; flex-direction:column; align-items:center;'>
+            <div style='width:12px;height:12px;border-radius:50%;background:{cor};
+                        border:2px solid {cor};margin-top:3px;flex-shrink:0;'></div>
+            {'<div style="width:2px;flex:1;background:#E5E7EB;margin:3px auto 0;"></div>' if not is_last else ''}
+          </div>
+          <div style='background:#FFFFFF;border:1px solid #E5E7EB;border-radius:8px;
+                      padding:10px 14px;margin-bottom:8px;flex:1;'>
+            <div style='display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:4px;'>
+              <div>
+                <span style='font-size:0.78rem;color:#9CA3AF'>{ant}</span>
+                <span style='color:#9CA3AF;margin:0 6px'>→</span>
+                <span style='background:{cor}22;color:{cor};font-size:0.8rem;font-weight:700;
+                             padding:2px 10px;border-radius:99px;'>{h['status_novo']}</span>
+              </div>
+              <span style='font-size:0.75rem;color:#9CA3AF'>{data} · {h.get('alterado_por','—')}</span>
+            </div>
+            {obs}
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+
 CARD_CLASS = {
     "🟢 No Prazo":    "card-verde",
     "🟡 Atenção":     "card-amarelo",
