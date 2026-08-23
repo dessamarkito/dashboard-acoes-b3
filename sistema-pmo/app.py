@@ -615,6 +615,14 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
             st.session_state.pop("editar_id", None)
             st.rerun()
 
+    # ── Histórico de Status ───────────────────────────────────────────
+    if editar_id:
+        historico = listar_historico_status(editar_id)
+        if historico:
+            st.markdown("<hr style='border-color:#E5E7EB; margin:24px 0'>", unsafe_allow_html=True)
+            st.markdown("#### 🕐 Histórico de Status")
+            _render_historico(historico)
+
     # ── Seção de Documentos (somente ao editar projeto existente) ─────
     if editar_id:
         st.markdown("<hr style='border-color:#333; margin:24px 0'>", unsafe_allow_html=True)
