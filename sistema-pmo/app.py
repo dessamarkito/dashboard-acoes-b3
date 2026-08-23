@@ -798,9 +798,10 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
             inicio = None
             fim    = None
 
-        # ── Seção 4: Status (somente edição) ─────────────────────────
+        # ── Seção Status (somente edição) ────────────────────────────
+        _snum = "⑤" if is_aprov else "④"
         if editar_id:
-            st.markdown("<div class='form-secao'><div class='form-secao-titulo'>④ Status Atual</div>",
+            st.markdown(f"<div class='form-secao'><div class='form-secao-titulo'>{_snum} Status Atual</div>",
                         unsafe_allow_html=True)
             h1, h2 = st.columns([1, 2])
             with h1:
