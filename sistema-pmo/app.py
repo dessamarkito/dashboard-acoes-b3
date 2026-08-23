@@ -745,19 +745,57 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
                                      placeholder="Ex: Transformação Digital, Redução de Custos...")
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # ── Seção 3: Orçamento ────────────────────────────────────────
-        st.markdown("<div class='form-secao'><div class='form-secao-titulo'>③ Orçamento</div>",
+        # ── Seção 3: Orçamento & Aprovação ───────────────────────────
+        st.markdown("<div class='form-secao'><div class='form-secao-titulo'>③ Orçamento & Aprovação</div>",
                     unsafe_allow_html=True)
-        orc_prev_mi = st.number_input(
-            "Orçamento Previsto (R$ milhões)",
-            min_value=0.0,
-            value=round(float(p.get("orcamento_previsto") or 0) / 1_000_000, 3),
-            step=0.1,
-            format="%.3f",
-            help="Digite em milhões. Ex: 1.5 = R$ 1.500.000"
-        )
-        orc_prev = orc_prev_mi * 1_000_000
+        oa1, oa2 = st.columns(2)
+        with oa1:
+            orc_prev_mi = st.number_input(
+                "Orçamento Previsto (R$ milhões)",
+                min_value=0.0,
+                value=round(float(p.get("orcamento_previsto") or 0) / 1_000_000, 3),
+                step=0.1, format="%.3f",
+                help="Ex: 1.5 = R$ 1.500.000"
+            )
+            orc_prev = orc_prev_mi * 1_000_000
+        with oa2:
+            _apr = p.get("aprovado", "Pendente") or "Pendente"
+            APROV_OPTS = ["Pendente", "Sim", "Não"]
+            aprovado = st.selectbox("Status de Aprovação", APROV_OPTS,
+                                    index=APROV_OPTS.index(_apr) if _apr in APROV_OPTS else 0)
+        if p.get("aprovado") == "Sim":
+            orc_aprov_mi = st.number_input(
+                "Orçamento Aprovado (R$ milhões)",
+                min_value=0.0,
+                value=round(float(p.get("orcamento_aprovado") or 0) / 1_000_000, 3),
+                step=0.1, format="%.3f",
+                help="Valor aprovado formalmente"
+            )
+            orc_aprov = orc_aprov_mi * 1_000_000
+        else:
+            orc_aprov = float(p.get("orcamento_aprovado") or 0)
         st.markdown("</div>", unsafe_allow_html=True)
+
+        # ── Seção 4: Cronograma (somente quando aprovado) ─────────────
+        if p.get("aprovado") == "Sim":
+            st.markdown("<div class='form-secao'><div class='form-secao-titulo'>④ Cronograma</div>",
+                        unsafe_allow_html=True)
+            cr1, cr2 = st.columns(2)
+            def _parse_date(s):
+                try:
+                    return datetime.strptime(s, "%Y-%m-%d").date()
+                except Exception:
+                    return date.today()
+            with cr1:
+                inicio = st.date_input("Data de Início",
+                                       value=_parse_date(p["inicio_previsto"]) if p.get("inicio_previsto") else date.today())
+            with cr2:
+                fim = st.date_input("Data de Fim Previsto",
+                                    value=_parse_date(p["fim_previsto"]) if p.get("fim_previsto") else date.today())
+            st.markdown("</div>", unsafe_allow_html=True)
+        else:
+            inicio = None
+            fim    = None
 
         # ── Seção 4: Status (somente edição) ─────────────────────────
         if editar_id:
