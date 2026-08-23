@@ -105,44 +105,44 @@ st.markdown("""
   /* Seções do formulário */
   .form-secao {
     background: #FFFFFF;
-    border-radius: 14px;
-    padding: 28px 32px;
-    margin-bottom: 20px;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
     border: 1px solid #DDE7F3;
     box-shadow: 0 2px 8px rgba(0,86,162,0.06);
+    overflow: hidden;
   }
   .form-secao-titulo {
-    font-size: 0.75rem;
+    font-size: 0.74rem;
     font-weight: 800;
     color: #0056A2;
     text-transform: uppercase;
     letter-spacing: 1px;
-    padding-bottom: 12px;
-    margin-bottom: 20px;
+    padding-bottom: 10px;
+    margin-bottom: 16px;
     border-bottom: 2px solid #DBEAFE;
-    display: flex;
-    align-items: center;
-    gap: 8px;
   }
 
   /* Step indicator */
   .stepper {
-    display: flex; align-items: center; gap: 0;
+    display: flex; align-items: center;
+    flex-wrap: wrap; gap: 4px;
     background: #FFFFFF; border-radius: 12px;
-    border: 1px solid #E5E7EB; padding: 16px 24px;
-    margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    border: 1px solid #E5E7EB; padding: 14px 20px;
+    margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    overflow: hidden;
   }
-  .step { display:flex; align-items:center; gap:10px; flex:1; }
+  .step { display:flex; align-items:center; gap:8px; }
   .step-num {
-    width:28px; height:28px; border-radius:50%;
+    width:26px; height:26px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
-    font-size:0.78rem; font-weight:700; flex-shrink:0;
+    font-size:0.75rem; font-weight:700; flex-shrink:0;
   }
   .step-num.ativo  { background:#0056A2; color:#FFF; }
   .step-num.futuro { background:#E5E7EB; color:#9CA3AF; }
-  .step-label { font-size:0.82rem; font-weight:600; color:#374151; }
-  .step-sublabel { font-size:0.72rem; color:#9CA3AF; }
-  .step-divider { width:40px; height:2px; background:#E5E7EB; margin:0 8px; }
+  .step-label { font-size:0.8rem; font-weight:600; color:#374151; line-height:1.2; }
+  .step-sublabel { font-size:0.68rem; color:#9CA3AF; }
+  .step-divider { width:28px; height:2px; background:#E5E7EB; margin:0 4px; flex-shrink:0; }
 
   /* Títulos */
   .titulo-sistema {
