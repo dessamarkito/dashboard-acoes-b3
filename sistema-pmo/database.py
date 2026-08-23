@@ -99,6 +99,19 @@ def init_db():
         )
     """)
 
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS historico_status (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            projeto_id INTEGER NOT NULL,
+            status_anterior TEXT,
+            status_novo TEXT NOT NULL,
+            observacao TEXT,
+            alterado_por TEXT,
+            alterado_em TEXT DEFAULT (datetime('now', 'localtime')),
+            FOREIGN KEY (projeto_id) REFERENCES projetos(id)
+        )
+    """)
+
     # Migrações para bancos existentes
     for sql in [
         "ALTER TABLE projetos ADD COLUMN categoria TEXT DEFAULT 'Operacionais'",
