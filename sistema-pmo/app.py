@@ -37,55 +37,80 @@ st.markdown("""
   }
   .block-container { padding-top:1.5rem; }
 
-  /* Campos de input — fundo branco e borda suave */
+  /* Campos de input — fundo azul-gelo para destacar sobre o card branco */
   .stTextInput input,
   .stTextArea textarea,
   .stNumberInput input {
-    background-color: #FFFFFF !important;
-    border: 1px solid #D1D5DB !important;
+    background-color: #F0F6FF !important;
+    border: 1.5px solid #B8CEE8 !important;
     border-radius: 8px !important;
     color: #111827 !important;
-    font-size: 0.92rem !important;
+    font-size: 0.94rem !important;
+    padding: 10px 14px !important;
+    transition: border-color 0.18s, box-shadow 0.18s, background-color 0.18s !important;
+  }
+  .stTextInput input:hover,
+  .stTextArea textarea:hover,
+  .stNumberInput input:hover {
+    border-color: #7AAED4 !important;
+    background-color: #E8F1FC !important;
   }
   .stTextInput input:focus,
   .stTextArea textarea:focus,
   .stNumberInput input:focus {
-    border-color: #0056A2 !important;
-    box-shadow: 0 0 0 3px rgba(0,86,162,0.12) !important;
-  }
-  .stSelectbox > div > div {
     background-color: #FFFFFF !important;
-    border: 1px solid #D1D5DB !important;
+    border-color: #0056A2 !important;
+    box-shadow: 0 0 0 3px rgba(0,86,162,0.15) !important;
+  }
+  /* Selectbox */
+  .stSelectbox > div > div {
+    background-color: #F0F6FF !important;
+    border: 1.5px solid #B8CEE8 !important;
     border-radius: 8px !important;
+  }
+  .stSelectbox > div > div:focus-within {
+    background-color: #FFFFFF !important;
+    border-color: #0056A2 !important;
+    box-shadow: 0 0 0 3px rgba(0,86,162,0.15) !important;
   }
   /* Labels dos campos */
   .stTextInput label, .stTextArea label,
   .stSelectbox label, .stNumberInput label {
-    font-size: 0.8rem !important;
-    font-weight: 600 !important;
-    color: #374151 !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    color: #0056A2 !important;
     text-transform: uppercase;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.6px;
+    margin-bottom: 4px !important;
+  }
+  /* Placeholder mais claro */
+  .stTextInput input::placeholder,
+  .stTextArea textarea::placeholder {
+    color: #94A3B8 !important;
+    font-style: italic;
   }
 
   /* Seções do formulário */
   .form-secao {
     background: #FFFFFF;
-    border-radius: 12px;
-    padding: 24px 28px;
-    margin-bottom: 16px;
-    border: 1px solid #E5E7EB;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    border: 1px solid #DDE7F3;
+    box-shadow: 0 2px 8px rgba(0,86,162,0.06);
   }
   .form-secao-titulo {
-    font-size: 0.78rem;
-    font-weight: 700;
+    font-size: 0.75rem;
+    font-weight: 800;
     color: #0056A2;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
-    border-bottom: 2px solid #EFF6FF;
-    padding-bottom: 10px;
-    margin-bottom: 18px;
+    letter-spacing: 1px;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #DBEAFE;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
   /* Step indicator */
