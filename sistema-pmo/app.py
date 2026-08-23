@@ -554,75 +554,62 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
 
     with st.form("form_projeto", clear_on_submit=False):
         st.markdown("#### Identificação")
-        c1, c2 = st.columns(2)
-        with c1:
+        f1, f2 = st.columns(2)
+        with f1:
             nome = st.text_input("Nome do Projeto *", value=p.get("nome",""))
-        with c2:
+        with f2:
             area = st.text_input("Área Demandante *", value=p.get("area_demandante",""))
 
-        c3, c4 = st.columns(2)
-        with c3:
-            pmo  = st.text_input("PMO Responsável *", value=p.get("pmo_responsavel",""))
-        with c4:
-            envolvidos = st.text_input("Envolvidos", value=p.get("envolvidos",""))
+        f3, f4 = st.columns(2)
+        with f3:
+            pmo = st.text_input("PMO Responsável *", value=p.get("pmo_responsavel",""))
+        with f4:
+            gerente = st.text_input("Gerente Executivo Responsável", value=p.get("gerente_executivo",""))
 
-        descricao = st.text_area("Descrição do Projeto", value=p.get("descricao",""), height=100)
+        envolvidos = st.text_input("Envolvidos", value=p.get("envolvidos",""),
+                                   placeholder="Nomes separados por vírgula")
+        descricao  = st.text_area("Descrição do Projeto", value=p.get("descricao",""), height=100)
 
-        st.markdown("#### Status e Classificação")
-        c5, c6, c7, c8 = st.columns(4)
-        with c5:
-            status = st.selectbox("Status Atual *", STATUS_OPTS,
-                                  index=STATUS_OPTS.index(p["status"]) if p.get("status") in STATUS_OPTS else 0)
-        with c6:
+        st.markdown("#### Classificação")
+        g1, g2, g3 = st.columns(3)
+        with g1:
+            _prior = p.get("prioridade","Média") or "Média"
             prioridade = st.selectbox("Prioridade", PRIORIDADE_OPTS,
-                                      index=PRIORIDADE_OPTS.index(p["prioridade"]) if p.get("prioridade") in PRIORIDADE_OPTS else 1)
-        with c7:
-            fase = st.selectbox("Fase Atual", FASE_OPTS,
-                                index=FASE_OPTS.index(p["fase"]) if p.get("fase") in FASE_OPTS else 0)
-        with c8:
-            _cat_default = p.get("categoria","Operacionais") or "Operacionais"
+                                      index=PRIORIDADE_OPTS.index(_prior) if _prior in PRIORIDADE_OPTS else 1)
+        with g2:
+            _cat = p.get("categoria","Operacionais") or "Operacionais"
             categoria = st.selectbox("Categoria", CATEGORIA_OPTS,
-                                     index=CATEGORIA_OPTS.index(_cat_default) if _cat_default in CATEGORIA_OPTS else 2)
+                                     index=CATEGORIA_OPTS.index(_cat) if _cat in CATEGORIA_OPTS else 2)
+        with g3:
+            _etapa = p.get("etapa","Ideação") or "Ideação"
+            etapa = st.selectbox("Etapa", ETAPA_OPTS,
+                                 index=ETAPA_OPTS.index(_etapa) if _etapa in ETAPA_OPTS else 0)
 
-        obs_status = st.text_input(
-            "Motivo da mudança de status (opcional)",
-            placeholder="Ex: Aprovação do sponsor recebida, dependência resolvida...",
-            help="Salvo no histórico somente quando o Status Atual for alterado."
-        )
-
-        st.markdown("#### Cronograma")
-        d1, d2, d3 = st.columns(3)
-        with d1:
-            inicio  = st.text_input("Início Previsto (dd/mm/aaaa)", value=p.get("inicio_previsto",""))
-        with d2:
-            fim     = st.text_input("Fim Previsto (dd/mm/aaaa)", value=p.get("fim_previsto",""))
-        with d3:
-            fc_prazo = st.text_input("Forecast de Conclusão (dd/mm/aaaa)", value=p.get("forecast_prazo",""))
+        direcionador = st.text_input("Direcionador Estratégico",
+                                     value=p.get("direcionador_estrategico",""),
+                                     placeholder="Ex: Transformação Digital, Eficiência Operacional...")
 
         st.markdown("#### Orçamento")
-        o1, o2, o3 = st.columns(3)
-        with o1:
-            orc_ap  = st.number_input("Orçamento Aprovado (R$)", min_value=0.0,
-                                      value=float(p.get("orcamento_aprovado") or 0), step=1000.0)
-        with o2:
-            orc_cons = st.number_input("Consumido (R$)", min_value=0.0,
-                                       value=float(p.get("orcamento_consumido") or 0), step=1000.0)
-        with o3:
-            fc_custo = st.number_input("Forecast Custo (R$)", min_value=0.0,
-                                       value=float(p.get("forecast_custo") or 0), step=1000.0)
+        orc_prev = st.number_input("Orçamento Previsto (R$)", min_value=0.0,
+                                   value=float(p.get("orcamento_previsto") or 0), step=1000.0,
+                                   format="%.2f")
 
-        st.markdown("#### Replanejamentos")
-        r1, r2 = st.columns([1, 3])
-        with r1:
-            qtd_rep = st.number_input("Qtd. Replanejamentos", min_value=0,
-                                      value=int(p.get("qtd_replanejamentos") or 0))
-        with r2:
-            motivo  = st.text_input("Motivo do Último Replanejamento", value=p.get("motivo_replanejamento",""))
-
-        observacoes = st.text_area("Observações", value=p.get("observacoes",""), height=80)
+        if editar_id:
+            st.markdown("#### Status Atual")
+            h1, h2 = st.columns([1, 2])
+            with h1:
+                _st = p.get("status","🔵 Não Iniciado") or "🔵 Não Iniciado"
+                status = st.selectbox("Status", STATUS_OPTS,
+                                      index=STATUS_OPTS.index(_st) if _st in STATUS_OPTS else 0)
+            with h2:
+                obs_status = st.text_input("Motivo da mudança (opcional)",
+                                           placeholder="Registrado no histórico ao mudar o status")
+        else:
+            status     = "🔵 Não Iniciado"
+            obs_status = ""
 
         st.markdown("<br>", unsafe_allow_html=True)
-        c_salvar, c_cancelar = st.columns([1,1])
+        c_salvar, c_cancelar = st.columns([1, 1])
         with c_salvar:
             salvar = st.form_submit_button("💾 Salvar Projeto", type="primary", use_container_width=True)
         with c_cancelar:
@@ -635,18 +622,12 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
                 dados = {
                     "id": editar_id,
                     "nome": nome, "categoria": categoria,
-                    "area_demandante": area,
-                    "pmo_responsavel": pmo, "envolvidos": envolvidos,
+                    "area_demandante": area, "pmo_responsavel": pmo,
+                    "gerente_executivo": gerente, "envolvidos": envolvidos,
                     "descricao": descricao, "status": status,
-                    "prioridade": prioridade, "fase": fase,
-                    "inicio_previsto": inicio, "fim_previsto": fim,
-                    "forecast_prazo": fc_prazo,
-                    "orcamento_aprovado": orc_ap,
-                    "orcamento_consumido": orc_cons,
-                    "forecast_custo": fc_custo,
-                    "qtd_replanejamentos": qtd_rep,
-                    "motivo_replanejamento": motivo,
-                    "observacoes": observacoes,
+                    "prioridade": prioridade, "etapa": etapa,
+                    "direcionador_estrategico": direcionador,
+                    "orcamento_previsto": orc_prev,
                     "obs_status": obs_status,
                 }
                 novo_id = salvar_projeto(dados, st.session_state.usuario["nome"])
