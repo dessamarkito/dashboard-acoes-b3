@@ -693,9 +693,15 @@ elif pagina == "➕ Novo Projeto" or st.session_state.get("editar_id"):
         # ── Seção 3: Orçamento ────────────────────────────────────────
         st.markdown("<div class='form-secao'><div class='form-secao-titulo'>③ Orçamento</div>",
                     unsafe_allow_html=True)
-        orc_prev = st.number_input("Orçamento Previsto (R$)", min_value=0.0,
-                                   value=float(p.get("orcamento_previsto") or 0),
-                                   step=1000.0, format="%.2f")
+        orc_prev_mi = st.number_input(
+            "Orçamento Previsto (R$ milhões)",
+            min_value=0.0,
+            value=round(float(p.get("orcamento_previsto") or 0) / 1_000_000, 3),
+            step=0.1,
+            format="%.3f",
+            help="Digite em milhões. Ex: 1.5 = R$ 1.500.000"
+        )
+        orc_prev = orc_prev_mi * 1_000_000
         st.markdown("</div>", unsafe_allow_html=True)
 
         # ── Seção 4: Status (somente edição) ─────────────────────────
