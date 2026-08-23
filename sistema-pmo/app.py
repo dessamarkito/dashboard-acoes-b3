@@ -254,7 +254,6 @@ if pagina == "🏠 Painel":
         st.markdown("#### Todos os Projetos")
         for p in projetos:
             css = CARD_CLASS.get(p["status"], "")
-            pct = (p["orcamento_consumido"] or 0) / (p["orcamento_aprovado"] or 1) * 100
             col_card, col_btn = st.columns([9, 1])
             with col_card:
                 st.markdown(f"""
@@ -265,10 +264,9 @@ if pagina == "🏠 Painel":
                   <span style='color:#374151;font-size:0.84rem'>
                     PMO: <b>{p['pmo_responsavel'] or '—'}</b> &nbsp;|&nbsp;
                     {p['status']} &nbsp;|&nbsp;
-                    Fase: {p['fase'] or '—'} &nbsp;|&nbsp;
+                    Etapa: {p.get('etapa') or '—'} &nbsp;|&nbsp;
                     Categoria: <b>{p.get('categoria') or '—'}</b> &nbsp;|&nbsp;
-                    Orç. Consumido: <b>{pct:.0f}%</b> &nbsp;|&nbsp;
-                    Forecast: {p['forecast_prazo'] or '—'}
+                    Orç. Previsto: <b>R$ {(p.get('orcamento_previsto') or 0):,.0f}</b>
                   </span>
                 </div>
                 """, unsafe_allow_html=True)
