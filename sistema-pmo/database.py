@@ -113,6 +113,18 @@ def init_db():
         )
     """)
 
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS plano_custos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            projeto_id INTEGER NOT NULL,
+            competencia TEXT NOT NULL,
+            valor_planejado REAL DEFAULT 0,
+            valor_consumido REAL DEFAULT 0,
+            UNIQUE(projeto_id, competencia),
+            FOREIGN KEY (projeto_id) REFERENCES projetos(id)
+        )
+    """)
+
     # Migrações para bancos existentes
     for sql in [
         "ALTER TABLE projetos ADD COLUMN categoria TEXT DEFAULT 'Operacionais'",
@@ -121,6 +133,7 @@ def init_db():
         "ALTER TABLE projetos ADD COLUMN etapa TEXT DEFAULT 'Ideação'",
         "ALTER TABLE projetos ADD COLUMN orcamento_previsto REAL DEFAULT 0",
         "ALTER TABLE projetos ADD COLUMN obs_status TEXT",
+        "ALTER TABLE projetos ADD COLUMN aprovado TEXT DEFAULT 'Pendente'",
     ]:
         try:
             c.execute(sql)
