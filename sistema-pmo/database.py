@@ -1,6 +1,7 @@
 import sqlite3
 import hashlib
 import os
+from datetime import datetime
 
 # Garante que o banco persiste mesmo no Streamlit Cloud
 DB_DIR  = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
