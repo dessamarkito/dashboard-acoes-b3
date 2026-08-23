@@ -398,12 +398,13 @@ elif st.session_state.get("consultar_id"):
     st.markdown("<br>", unsafe_allow_html=True)
 
     # Status / badges
+    _etapa_c = p.get("etapa") or "—"
     st.markdown(f"""
     <div style='display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;'>
       <span style='background:{cor_s}22; color:{cor_s}; padding:5px 14px;
                    border-radius:99px; font-weight:700; font-size:0.88rem;'>{p['status']}</span>
       <span style='background:#E5E7EB; color:#374151; padding:5px 14px;
-                   border-radius:99px; font-size:0.88rem;'>Fase: {p['fase'] or '—'}</span>
+                   border-radius:99px; font-size:0.88rem;'>Etapa: {_etapa_c}</span>
       <span style='background:#E5E7EB; color:#374151; padding:5px 14px;
                    border-radius:99px; font-size:0.88rem;'>Prioridade: {p['prioridade'] or '—'}</span>
       <span style='background:#E5E7EB; color:#374151; padding:5px 14px;
@@ -421,40 +422,20 @@ elif st.session_state.get("consultar_id"):
         <div style='background:#FFFFFF;border:1px solid #E5E7EB;border-radius:10px;padding:20px;'>
           <div style='font-size:0.8rem;font-weight:700;color:#6B7280;margin-bottom:14px;text-transform:uppercase;letter-spacing:0.5px'>Equipe</div>
           {campo("PMO Responsável", p['pmo_responsavel'])}
+          {campo("Gerente Executivo", p.get('gerente_executivo'))}
           {campo("Área Demandante", p['area_demandante'])}
           {campo("Envolvidos", p['envolvidos'])}
-        </div>
-        <br>
-        <div style='background:#FFFFFF;border:1px solid #E5E7EB;border-radius:10px;padding:20px;'>
-          <div style='font-size:0.8rem;font-weight:700;color:#6B7280;margin-bottom:14px;text-transform:uppercase;letter-spacing:0.5px'>Cronograma</div>
-          {campo("Início Previsto", p['inicio_previsto'])}
-          {campo("Fim Previsto", p['fim_previsto'])}
-          {campo("Forecast de Conclusão", p['forecast_prazo'])}
         </div>
         """, unsafe_allow_html=True)
 
     with d2:
-        orc_ap   = p['orcamento_aprovado']  or 0
-        orc_cons = p['orcamento_consumido'] or 0
-        fc_custo = p['forecast_custo']      or 0
-        pct_orc  = min(int(orc_cons / orc_ap * 100) if orc_ap else 0, 100)
-        cor_orc  = "#DC2626" if fc_custo > orc_ap else "#009A44"
+        orc_prev = p.get("orcamento_previsto") or 0
         st.markdown(f"""
         <div style='background:#FFFFFF;border:1px solid #E5E7EB;border-radius:10px;padding:20px;'>
-          <div style='font-size:0.8rem;font-weight:700;color:#6B7280;margin-bottom:14px;text-transform:uppercase;letter-spacing:0.5px'>Orçamento</div>
-          {campo("Aprovado", f"R$ {orc_ap:,.0f}".replace(",","."))}
-          {campo("Consumido", f"R$ {orc_cons:,.0f}".replace(",","."))}
-          {campo("Forecast Custo", f"R$ {fc_custo:,.0f}".replace(",","."))}
-          <div style='background:#E5E7EB;border-radius:99px;height:8px;margin-top:8px;'>
-            <div style='background:{cor_orc};width:{pct_orc}%;height:8px;border-radius:99px;'></div>
-          </div>
-          <div style='font-size:0.75rem;color:#6B7280;margin-top:4px;'>{pct_orc}% consumido</div>
-        </div>
-        <br>
-        <div style='background:#FFFFFF;border:1px solid #E5E7EB;border-radius:10px;padding:20px;'>
-          <div style='font-size:0.8rem;font-weight:700;color:#6B7280;margin-bottom:14px;text-transform:uppercase;letter-spacing:0.5px'>Replanejamentos</div>
-          {campo("Quantidade", p['qtd_replanejamentos'])}
-          {campo("Último Motivo", p['motivo_replanejamento'])}
+          <div style='font-size:0.8rem;font-weight:700;color:#6B7280;margin-bottom:14px;text-transform:uppercase;letter-spacing:0.5px'>Orçamento e Estratégia</div>
+          {campo("Orçamento Previsto", f"R$ {orc_prev:,.2f}".replace(",","X").replace(".",",").replace("X","."))}
+          {campo("Direcionador Estratégico", p.get('direcionador_estrategico'))}
+          {campo("Etapa Atual", p.get('etapa'))}
         </div>
         """, unsafe_allow_html=True)
 
