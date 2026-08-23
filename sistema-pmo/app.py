@@ -78,8 +78,8 @@ st.markdown("""
 
 STATUS_OPTS    = ["🔵 Não Iniciado","🟢 No Prazo","🟡 Atenção","🔴 Crítico","⚫ Encerrado"]
 PRIORIDADE_OPTS = ["Alta","Média","Baixa"]
-FASE_OPTS      = ["Iniciação","Planejamento","Execução","Monitoramento","Encerramento"]
 CATEGORIA_OPTS = ["Estratégicos","Regulatórios","Operacionais","Melhorias"]
+ETAPA_OPTS     = ["Ideação","Prototipação","Aprovação do Business Case"]
 TAREFA_STATUS  = ["Pendente","Em Andamento","Concluída","Cancelada"]
 TAREFA_CORES   = {"Pendente":"#6B7280","Em Andamento":"#0056A2",
                   "Concluída":"#009A44","Cancelada":"#9CA3AF"}
