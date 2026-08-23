@@ -321,10 +321,9 @@ elif pagina == "📋 Projetos":
                   </span><br>
                   <span style='color:#374151; font-size:0.84rem'>
                     {p['status']} &nbsp;|&nbsp; PMO: <b>{p['pmo_responsavel'] or '—'}</b> &nbsp;|&nbsp;
-                    Fase: {p['fase'] or '—'} &nbsp;|&nbsp;
+                    Etapa: {p.get('etapa') or '—'} &nbsp;|&nbsp;
                     Categoria: <b>{p.get('categoria') or '—'}</b> &nbsp;|&nbsp;
-                    Prazo: {p['fim_previsto'] or '—'} → {p['forecast_prazo'] or '—'} &nbsp;|&nbsp;
-                    Replanej.: {p['qtd_replanejamentos']}
+                    Orç. Previsto: <b>R$ {(p.get('orcamento_previsto') or 0):,.0f}</b>
                   </span>
                 </div>
                 """, unsafe_allow_html=True)
