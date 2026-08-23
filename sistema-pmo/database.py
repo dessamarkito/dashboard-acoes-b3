@@ -115,6 +115,10 @@ def init_db():
     # Migrações para bancos existentes
     for sql in [
         "ALTER TABLE projetos ADD COLUMN categoria TEXT DEFAULT 'Operacionais'",
+        "ALTER TABLE projetos ADD COLUMN gerente_executivo TEXT",
+        "ALTER TABLE projetos ADD COLUMN direcionador_estrategico TEXT",
+        "ALTER TABLE projetos ADD COLUMN etapa TEXT DEFAULT 'Ideação'",
+        "ALTER TABLE projetos ADD COLUMN orcamento_previsto REAL DEFAULT 0",
     ]:
         try:
             c.execute(sql)
